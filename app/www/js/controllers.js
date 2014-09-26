@@ -2,7 +2,7 @@
 
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope, $ionicPopup) {
+.controller('HomeCtrl', function($scope, $ionicPopup) {
   $scope.swipeLeft = function () { 
     console.log('swiped left');
     // var alertPopup = 
