@@ -19,9 +19,10 @@ Running your own instance of this repo
 
 1. clone repo
 2. npm install -g cordova ionic (gets you both ionic and cordova)
-3. npm install from root (to get all dependencies)
-4. bower install from www (to get bower components)
+3. npm install from root
+4. bower install
 5. cordova platform add ios
+6. cordova platform add android
 6. cordova plugin add org.apache.cordova.device
 7. cordova plugin add org.apache.cordova.statusbar
 8. cordova plugin add org.apache.cordova.inappbrowser
