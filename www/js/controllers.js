@@ -8,26 +8,29 @@ angular.module('starter.controllers', [])
   var baseImgPath = 'img/food_images/'
 
   var questions = {
-    energy: 'Do <foodname> have lots of energy?'
-    protein: 'Are <foodname> high in protein?'
-    fibre: 'Are <foodname> high in fibre?'
-    sugar: 'Do <foodname> contain lots of sugar?'
-    calcium: 'Does <foodname> contain lots of calcium?'
+    energy: 'Do <foodname> have lots of energy?',
+    protein: 'Are <foodname> high in protein?',
+    fiber: 'Are <foodname> high in fibre?',
+    sugars: 'Do <foodname> contain lots of sugar?',
+    calcium: 'Do <foodname> contain lots of calcium?'
   }
 
-  var getQuestion = function(category, foodname){
-    return questions[category].replace('<foodname>', foodname);
+  var getQuestion = function(category, foodName){
+    return questions[category].replace('<foodname>', foodName);
   }
 
   var getImagePath = function(barcode){
-    return baseImgPath + barcode;
+    return './' + baseImgPath + barcode + '.jpg';
   }
 
-  $scope.question = {
-    name: getQuestion(),
-    image: getImagePath(),
-    answer: true,
-  };
+  foodSvc.getNext(function (data) {
+    console.log('Get next object', data);
+    $scope.question = {
+      name: getQuestion(data.category.toLowerCase(), data.foodName.toLowerCase()),
+      image: getImagePath(data.barcode),
+      answer: true,
+    };
+  })
 
   $scope.answer = function(index){
     if (index === 1) {
