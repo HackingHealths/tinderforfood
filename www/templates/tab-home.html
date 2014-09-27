@@ -1,10 +1,10 @@
 <ion-view title="Gin Hong">
-  <ion-content class="padding" ng-class="result">
-    <ion-slide-box show-pager="false" on-slide-changed="answer($index)" active-slide="activeSlide">
-      <ion-slide>
-        <div class="box left"></div>
-      </ion-slide>
-      <ion-slide>
+  <ion-content class="padding">
+    <!-- <ion-slide-box show-pager="false" on-slide-changed="answer($index)" active-slide="activeSlide"> -->
+      <!-- <ion-slide> -->
+        <!-- <div class="box left"></div> -->
+      <!-- </ion-slide> -->
+      <div on-swipe-left="answer('1')" on-swipe-right="answer('2')">
         <div class="box question">
           <h3>{{ question.name }}</h3>
           <img src="{{question.image}}" style="width:100%;"></img>
@@ -13,10 +13,11 @@
             <div class="question-yes col col-33 col-offset-33"><i class="fa fa-2x fa-check"></i></div>
           </div>
         </div>
-      </ion-slide>
-      <ion-slide>
+      </div>
+      <!-- <ion-slide>
         <div class="box right"></div>
-      </ion-slide>
-    </ion-slide-box>
+      </ion-slide> -->
+    <!-- </ion-slide-box> -->
   </ion-content>
+
 </ion-view>

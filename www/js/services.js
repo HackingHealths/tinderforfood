@@ -50,10 +50,7 @@ angular.module('starter.services', [])
   };
 
   var compare = function (food, category) {
-    console.log(foodData);
-    console.log(food, category);
     var answer = foodData.foods[food][category].value_per_hundred > foodData.averages[category] ? true : false;
-    console.log(foodData.foods[food][category].value_per_hundred, foodData.averages[category], answer);
     return answer;
   };
  
