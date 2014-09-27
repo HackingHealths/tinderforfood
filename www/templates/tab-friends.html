@@ -1,9 +1,9 @@
 <ion-view title="Friends">
-  <ion-content>
-    <ion-list>
-      <ion-item ng-repeat="friend in friends" type="item-text-wrap" href="#/tab/friend/{{friend.id}}">
-        {{friend.name}}
-      </ion-item>
-    </ion-list>
+  <ion-content class="padding">
+    <swipe-cards on-card-swipe="onSwipe($event)">
+
+    <swipe-card on-card-swipe="cardSwiped()" id="start-card">
+      Swipe down for a new card
+    </swipe-card>
   </ion-content>
 </ion-view>

@@ -13,7 +13,7 @@ angular.module('starter.controllers', [])
   var questions = {
     energy: 'Do <foodname> have lots of energy?',
     protein: 'Are <foodname> high in protein?',
-    carbohydrate: 'Are <foodname> high in carbohydrate?',
+    carbohydrate: 'Are <foodname> high in carbohydrates?',
     fat: 'Do <foodname> contain lots of fat?',
     calcium: 'Do <foodname> contain lots of calcium?'
   };
@@ -50,11 +50,71 @@ angular.module('starter.controllers', [])
     if ( $scope.result === 'question-bg-correct' ) {
       correct++;
     } else {
-      wrong++;  
+      wrong++;
     }
     console.log(total, correct, wrong);
     getNext();
-    
+
+  };
+})
+
+.controller('CardsCtrl', function($scope, $ionicSwipeCardDelegate, $rootScope) {
+  $rootScope.correct = 0;
+  $rootScope.wrong = 0;
+  // var cardTypes = [
+  //   { title: 'Swipe down to clear the card', image: 'http://ionicframework.com.s3.amazonaws.com/demos/ionic-contrib-swipecards/pic.png' },
+  //   { title: 'Where is this?', image: 'http://ionicframework.com.s3.amazonaws.com/demos/ionic-contrib-swipecards/pic.png' },
+  //   { title: 'What kind of grass is this?', image: 'http://ionicframework.com.s3.amazonaws.com/demos/ionic-contrib-swipecards/pic2.png' },
+  //   { title: 'What beach is this?', image: 'http://ionicframework.com.s3.amazonaws.com/demos/ionic-contrib-swipecards/pic3.png' },
+  //   { title: 'What kind of clouds are these?', image: 'http://ionicframework.com.s3.amazonaws.com/demos/ionic-contrib-swipecards/pic4.png' }
+  // ];
+
+  $scope.cards = Array.prototype.slice.call(cardTypes, 0, 0);
+
+  $scope.cardSwiped = function(index) {
+    $scope.addCard();
+
+
+  };
+
+  $scope.cardDestroyed = function(index) {
+    if (this.swipeCard.positive === true) {
+      $scope.$root.accepted++;
+    } else {
+      $scope.$root.rejected++;
+    }
+    $scope.cards.splice(index, 1);
+  };
+
+  $scope.addCard = function() {
+    var newCard = cardTypes[Math.floor(Math.random() * cardTypes.length)];
+    newCard.id = Math.random();
+    $scope.cards.push(angular.extend({}, newCard));
+  }
+})
+
+.controller('CardCtrl', function($scope, $ionicSwipeCardDelegate, $rootScope, $ionicGesture) {
+
+  var doDragStart= function(e) {
+    var width = this.el.offsetWidth;
+    var point = window.innerWidth / 2 + this.rotationDirection * (width / 2)
+    var distance = Math.abs(point - e.gesture.touches[0].pageY);// - window.innerWidth/2);
+
+    this.touchDistance = distance * 10;
+
+
+    console.log('Touch distance', this.touchDistance);//this.touchDistance, width);
+  }
+
+  $scope.accept = function () {
+    var card = $ionicSwipeCardDelegate.getSwipebleCard($scope);
+    $rootScope.accepted++;
+    card.swipe(true);
+  }
+  $scope.reject = function() {
+    var card = $ionicSwipeCardDelegate.getSwipebleCard($scope);
+    $rootScope.rejected++;
+    card.swipe();
   };
 })
 
@@ -69,7 +129,7 @@ angular.module('starter.controllers', [])
 .controller('AccountCtrl', function($scope) {
   var i;
   var people = [];
-  for (i = 1; i < 32; i++) { 
+  for (i = 1; i < 32; i++) {
     people.push(i.toString())
   };
   $scope.array = people
