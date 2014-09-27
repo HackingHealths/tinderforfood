@@ -32,8 +32,8 @@ angular.module('starter.services', [])
   // console.log(foodData);
   var foodNameArray = Object.keys(foodData.foods);
   var categoryArray = ['Energy', 'Protein', 'Calcium', 'Fat', 'Carbohydrate'];
-  
-  
+
+
   (function () {
     for (var key in foodData.foods) {
       var array = Object.keys(foodData.foods[key]);
@@ -53,24 +53,27 @@ angular.module('starter.services', [])
     var answer = foodData.foods[food][category].value_per_hundred > foodData.averages[category] ? true : false;
     return answer;
   };
- 
+
   var createSet = function () {
-    var food = foodNameArray[randomNumber(foodNameArray.length)];
-    var category = categoryArray[randomNumber(5)];
-    var barcode = foodData.foods[food].barcode;
-    var answer = compare(food, category);
-    return {
-      foodName: food,
-      category: category,
-      barcode: barcode,
-      answer: answer
-    };
+    var questionsArray = [];
+    for (var i = 0; i < 10; i++) {
+      var food = foodNameArray[randomNumber(foodNameArray.length)];
+      var category = categoryArray[randomNumber(5)];
+      var barcode = foodData.foods[food].barcode;
+      var answer = compare(food, category);
+      questionsArray.push({
+        foodName: food,
+        category: category,
+        barcode: barcode,
+        answer: answer
+      });
+    }
+    return questionsArray;
   };
 
   return {
     getNext: function (cb) {
       var set = createSet();
-
       cb(set);
     }
 
