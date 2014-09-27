@@ -1,26 +1,36 @@
-<ion-view title="How did you do?">
+<ion-view title="Answers">
   <ion-content class="padding">
-	<div>
-	  <h3>Apple contains lots of calcium, compared to other fruits!</h3>
-	  <img src="/img/food_images/2171.jpg" style="width:100%;"></img>
-	</div>
-  <div>
-	  <img src="/img/people_images/me.jpg" style="width:50px;"></img>
-	</div>
-	<div>
-	  <span>
-	  	27% got it right
-
-	  </span>
-	  <span>
-	  	73% got it wrong
-	  </span>
-  </div>
-
-  <ul ng-repeat="element in array">
-  	<li>
-  		<img ng-src="/img/people_images/{{ element }}.jpg" />
-  	</li>
-  </ul>
+		<div class="list card" style="text-align:center;">
+			<div class="item item-body">
+			  <div style="font-size:25px;">
+			  	Does apples contain lots of calcium?
+			  </div style="font-size:25px;">
+			</div>
+			<div class="item item-body">
+			  <div>The answer is</div>
+			  <h1>YES</h1>
+			</div>
+			<div class="item item-body">
+			  <span style="display:inline-block; width:49%; vertical-align:top; background-color:#D5D9D3;">
+			  	<div style="color:green; font-size:35px; padding:10px;">27%</div>
+			  	<div style="color:green;">Right</div>
+				  <div style="padding:15px;">
+			  	  <span ng-repeat="element in array">
+					  	<img ng-src="/img/people_images/{{ element }}.jpg" style="width:20px;" />
+					  </span>
+					</div>
+					<div>You</div>
+			  </span>
+			  <span style="display:inline-block; width:49%; vertical-align:top;">
+			  	<div style="color:red; font-size:35px; padding:10px;">73%</div>
+			  	<div style="color:red;">Wrong</div>
+			  	<div style="padding:15px;">
+			  	  <span ng-repeat="element in array">
+					  	<img ng-src="/img/people_images/{{ element }}.jpg" style="width:20px;" ng-class='{ sdlf: noShow' />
+					  </span>
+					</div>
+			  </span>
+		  </div>
+		</div>
   </ion-content>
 </ion-view>
