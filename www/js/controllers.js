@@ -2,7 +2,7 @@
 
 angular.module('starter.controllers', [])
 
-.controller('HomeCtrl', function($scope, $ionicPopup, foodSvc) {
+.controller('HomeCtrl', function($scope) {
 
   $scope.activeSlide = 1;
 

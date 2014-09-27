@@ -27,52 +27,63 @@ angular.module('starter.services', [])
   };
 })
 
-.factory('foodSvc', function($http) {
+.factory('foodSvc', function() {
   // Might use a resource here that returns a JSON array
 
   var foodStorage = [];
   var question = [];
-  var barcodes = ['01618419', '0161841', '01618419', '0161841', '01618419'];
-  var currentIdx = 0;
+  
+  var foodNameArray = Object.keys(foodData.foods);
+  var categoryArray = Object.keys(foodData.foods.Apple);
+  
+  console.log(foodNameArray);
+  console.log(categoryArray);
+  
+  // console.log(foodNameArray.length);
+  var randomNumber = function (max) {
+    return Math.floor(Math.random() * max);
+  };
 
   var compare = function (foodOne, foodTwo, category) {
-    var answer = foodOne[category] > foodTwo[category] ? foodOne : foodTwo;
-    return answer;
+    // var answer = foodOne[category] > foodTwo[category] ? foodOne : foodTwo;
+    return false;
   };
  
-  var createSet = function (foodOne, foodTwo, category) {
-    var answer = foodOne[category] > foodTwo[category] ? foodOne : foodTwo;
+  // var createSet = function (foodOne, foodTwo, category) {
+  //   var answer = foodOne[category] > foodTwo[category] ? foodOne : foodTwo;
 
-    // var answer = compare(foodOne, foodTwo, )
+  //   // var answer = compare(foodOne, foodTwo, )
+  //   return {
+  //     foodOne: foodOne,
+  //     foodTwo: foodTwo,
+  //     question: '',
+  //     image: '',
+  //     answer: answer
+  //   };
+  // };
+// www/img/food_images/barcode.jpg
+
+  var createSet = function () {
+    var food = foodNameArray[randomNumber(foodNameArray.length)];
+    var category = categoryArray[randomNumber(foodNameArray.length)];
+    var barcode = foodData.foods[food].barcode;
+    var answer = compare(food, category);
     return {
-      foodOne: foodOne,
-      foodTwo: foodTwo,
-      question: '',
-      image: '',
+      foodName: food,
+      category: category,
+      barcode: barcode,
       answer: answer
     };
   };
 
   return {
     start: function(cb) {
-      console.log(foodData);
-      
-      for (var i = 0; i < barcodes.length; i++) {
-        var barcode = barcodes[i];
-        $http.get('http://world.openfoodfacts.org/api/v0/products/' + barcode)
-        .success(function (data) {
-          foodStorage.push(data);
-          if (foodStorage.length === barcodes.length) {
-            if (cb) { cb(foodStorage); }
-          }
-        });
-      }
     },
 
     getNext: function (cb) {
-      console.log(foodData);
-      cb(foodStorage[0]);
-      var number = Math.floor(Math.random() * 10); //change 10 to length of foodStorage
+      var set = createSet();
+
+      cb(set);
       // console.log(number);
     }
 
