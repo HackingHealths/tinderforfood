@@ -35,10 +35,11 @@ $red: #FF4136;
 }
 
 .question-image {
-  height: 200px;
   margin-bottom: 20px;
-  background-size: cover;
+  background-size: 100%;
   background-repeat: no-repeat;
+  background-position: center;
+  height: 300px;
 }
 
 .question-no {

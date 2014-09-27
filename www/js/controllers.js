@@ -5,12 +5,32 @@ angular.module('starter.controllers', [])
 .controller('HomeCtrl', function($scope, foodSvc) {
 
   $scope.activeSlide = 1;
+  var baseImgPath = 'img/food_images/'
 
-  $scope.question = {
-    name: "Does this food have lots of protein?",
-    image: "http://world.openfoodfacts.org/images/products/848/001/716/1833/front.5.200.jpg",
-    answer: true,
-  };
+  var questions = {
+    energy: 'Do <foodname> have lots of energy?',
+    protein: 'Are <foodname> high in protein?',
+    fiber: 'Are <foodname> high in fibre?',
+    sugars: 'Do <foodname> contain lots of sugar?',
+    calcium: 'Do <foodname> contain lots of calcium?'
+  }
+
+  var getQuestion = function(category, foodName){
+    return questions[category].replace('<foodname>', foodName);
+  }
+
+  var getImagePath = function(barcode){
+    return './' + baseImgPath + barcode + '.jpg';
+  }
+
+  foodSvc.getNext(function (data) {
+    console.log('Get next object', data);
+    $scope.question = {
+      name: getQuestion(data.category.toLowerCase(), data.foodName.toLowerCase()),
+      image: getImagePath(data.barcode),
+      answer: true,
+    };
+  })
 
   $scope.answer = function(index){
     if (index === 1) {
