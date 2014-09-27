@@ -1,8 +1,8 @@
 <ion-view title="Gin Hong">
-  <ion-content class="padding">
-    <ion-slide-box show-pager="false" active-slide="1" on-slide-changed="answerQuestion($index)">
+  <ion-content class="padding" ng-class="result">
+    <ion-slide-box show-pager="false" on-slide-changed="answer($index)" active-slide="activeSlide">
       <ion-slide>
-        <div class="box left"><h1>Left</h1></div>
+        <div class="box left"></div>
       </ion-slide>
       <ion-slide>
         <div class="box question">
@@ -15,7 +15,7 @@
         </div>
       </ion-slide>
       <ion-slide>
-        <div class="box right"><h1>right</h1></div>
+        <div class="box right"></div>
       </ion-slide>
     </ion-slide-box>
   </ion-content>

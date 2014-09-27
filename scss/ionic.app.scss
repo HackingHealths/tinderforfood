@@ -21,24 +21,46 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
+$green: #01FF70;
+$red: #FF4136;
+
+// App CSS
 .box {
   height: 500px;
   overflow: none;
+  -webkit-transition: background-color 500ms ease-out;
+  -moz-transition: background-color 500ms ease-out;
+  -o-transition: background-color 500ms ease-out;
+  transition: background-color 500ms ease-out;
 }
 
 .question-image {
   height: 200px;
   margin-bottom: 20px;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .question-no {
-  color: red;
-  border: 1px solid red;
+  color: $red;
+  border: 1px solid $red;
   text-align: center;
 }
 
 .question-yes {
-  color: green;
-  border: 1px solid green;
+  color: $green;
+  border: 1px solid $green;
   text-align: center;
+}
+
+.question-bg-blank {
+  background-color: white;
+}
+
+.question-bg-correct {
+  background-color: $green;
+}
+
+.question-bg-wrong {
+  background-color: $red;
 }
