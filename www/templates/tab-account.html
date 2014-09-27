@@ -1,5 +1,26 @@
-<ion-view title="Account">
+<ion-view title="How did you do?">
   <ion-content class="padding">
-    <h1>Account</h1>
+	<div>
+	  <h3>Apple contains lots of calcium, compared to other fruits!</h3>
+	  <img src="/img/food_images/2171.jpg" style="width:100%;"></img>
+	</div>
+  <div>
+	  <img src="/img/people_images/me.jpg" style="width:50px;"></img>
+	</div>
+	<div>
+	  <span>
+	  	27% got it right
+
+	  </span>
+	  <span>
+	  	73% got it wrong
+	  </span>
+  </div>
+
+  <ul ng-repeat="element in array">
+  	<li>
+  		<img ng-src="/img/people_images/{{ element }}.jpg" />
+  	</li>
+  </ul>
   </ion-content>
 </ion-view>

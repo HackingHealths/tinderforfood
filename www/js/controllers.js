@@ -52,4 +52,10 @@ angular.module('starter.controllers', [])
 })
 
 .controller('AccountCtrl', function($scope) {
+  var i;
+  var people = [];
+  for (i = 1; i < 32; i++) { 
+    people.push(i.toString())
+  };
+  $scope.array = people
 });
