@@ -69,14 +69,13 @@ angular.module('starter.controllers', [])
       wrongAnswer.result = false;
       results.push(wrongAnswer);
     }
-    console.log(idx, correct, wrong);
     if (idx === 0) {
       console.log(results);
       resultRef.set(results);
       foodSvc.saveResult(results);
       $state.go('tab.account');
     }
-    console.log(count, correct, wrong);
+    console.log('SCORE', count, ':', correct, 'correct', wrong, 'wrong');
   };
 
   /*
