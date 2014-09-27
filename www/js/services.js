@@ -55,6 +55,8 @@ angular.module('starter.services', [])
 
   return {
     start: function(cb) {
+      console.log(foodData);
+      
       for (var i = 0; i < barcodes.length; i++) {
         var barcode = barcodes[i];
         $http.get('http://world.openfoodfacts.org/api/v0/products/' + barcode)
@@ -68,6 +70,7 @@ angular.module('starter.services', [])
     },
 
     getNext: function (cb) {
+      console.log(foodData);
       cb(foodStorage[0]);
       var number = Math.floor(Math.random() * 10); //change 10 to length of foodStorage
       // console.log(number);

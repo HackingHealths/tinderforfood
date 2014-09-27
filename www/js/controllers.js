@@ -2,7 +2,7 @@
 
 angular.module('starter.controllers', [])
 
-.controller('HomeCtrl', function($scope, $ionicPopup) {
+.controller('HomeCtrl', function($scope, $ionicPopup, foodSvc) {
 
   $scope.activeSlide = 1;
 
@@ -10,7 +10,7 @@ angular.module('starter.controllers', [])
     name: "Does this food have lots of protein?",
     image: "http://world.openfoodfacts.org/images/products/848/001/716/1833/front.5.200.jpg",
     answer: true,
-  }
+  };
 
   $scope.answer = function(index){
     if (index === 1) {
@@ -20,7 +20,7 @@ angular.module('starter.controllers', [])
       $scope.result = index === 2 ? 'question-bg-correct' : 'question-bg-wrong';
       console.log($scope.result);
     }
-  }
+  };
 })
 
 .controller('FriendsCtrl', function($scope, Friends) {
