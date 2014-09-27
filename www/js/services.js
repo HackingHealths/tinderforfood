@@ -30,42 +30,23 @@ angular.module('starter.services', [])
 .factory('foodSvc', function() {
   // Might use a resource here that returns a JSON array
 
-  var foodStorage = [];
-  var question = [];
-  
   var foodNameArray = Object.keys(foodData.foods);
-  var categoryArray = Object.keys(foodData.foods.Apple);
+  var categoryArray = ['Energy', 'Protein', 'Fiber', 'Sugars', 'Calcium'];
   
   console.log(foodNameArray);
   console.log(categoryArray);
   
-  // console.log(foodNameArray.length);
   var randomNumber = function (max) {
     return Math.floor(Math.random() * max);
   };
 
   var compare = function (foodOne, foodTwo, category) {
-    // var answer = foodOne[category] > foodTwo[category] ? foodOne : foodTwo;
     return false;
   };
  
-  // var createSet = function (foodOne, foodTwo, category) {
-  //   var answer = foodOne[category] > foodTwo[category] ? foodOne : foodTwo;
-
-  //   // var answer = compare(foodOne, foodTwo, )
-  //   return {
-  //     foodOne: foodOne,
-  //     foodTwo: foodTwo,
-  //     question: '',
-  //     image: '',
-  //     answer: answer
-  //   };
-  // };
-// www/img/food_images/barcode.jpg
-
   var createSet = function () {
     var food = foodNameArray[randomNumber(foodNameArray.length)];
-    var category = categoryArray[randomNumber(foodNameArray.length)];
+    var category = categoryArray[randomNumber(5)];
     var barcode = foodData.foods[food].barcode;
     var answer = compare(food, category);
     return {
@@ -77,14 +58,10 @@ angular.module('starter.services', [])
   };
 
   return {
-    start: function(cb) {
-    },
-
     getNext: function (cb) {
       var set = createSet();
 
       cb(set);
-      // console.log(number);
     }
 
   };
