@@ -75,7 +75,7 @@ angular.module('starter.controllers', [])
       console.log(results);
 
       resultRef.set(results);
-
+      foodSvc.saveResult(results);
       $state.go('tab.account');
     }
     console.log(total, correct, wrong);
@@ -156,7 +156,9 @@ angular.module('starter.controllers', [])
   $scope.friend = Friends.get($stateParams.friendId);
 })
 
-.controller('AccountCtrl', function($scope) {
+.controller('AccountCtrl', function($scope, foodSvc) {
+  $scope.result = foodSvc.getResult();
+  console.log($scope.result);
   var i;
   var people = [];
   for (i = 1; i < 10; i++) { 
