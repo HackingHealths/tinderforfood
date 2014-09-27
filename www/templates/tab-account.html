@@ -1,10 +1,8 @@
 <ion-view title="Answers">
   <ion-content class="padding">
-		<div class="list card" style="text-align:center;">
+		<div class="list card text-center">
 			<div class="item item-body">
-			  <div style="font-size:25px;">
 			  	Does apples contain lots of calcium?
-			  </div style="font-size:25px;">
 			</div>
 			<div class="item item-body">
 			  <div>The answer is</div>
@@ -16,7 +14,7 @@
 			  	<div style="color:green;">Right</div>
 				  <div style="padding:15px;">
 			  	  <span ng-repeat="element in array">
-					  	<img ng-src="/img/people_images/{{ element }}.jpg" style="width:20px;" />
+					  	<img ng-src="http://tinderforfood.s3.amazonaws.com/people_images/{{ element }}.jpg" style="width:20px;" />
 					  </span>
 					</div>
 					<div>You</div>
@@ -26,7 +24,7 @@
 			  	<div style="color:red;">Wrong</div>
 			  	<div style="padding:15px;">
 			  	  <span ng-repeat="element in array">
-					  	<img ng-src="/img/people_images/{{ element }}.jpg" style="width:20px;" ng-class='{ sdlf: noShow' />
+					  	<img ng-src="http://tinderforfood.s3.amazonaws.com/people_images/{{ element }}.jpg" style="width:20px;" ng-class='{ sdlf: noShow' />
 					  </span>
 					</div>
 			  </span>
