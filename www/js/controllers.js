@@ -32,39 +32,6 @@ angular.module('starter.controllers', [])
 
   $scope.activeSlide = 1;
 
-  var getQuestion = function(category, foodName){
-    var questions = {
-      energy: 'Do <foodname> have lots of energy?',
-      protein: 'Are <foodname> high in protein?',
-      carbohydrate: 'Are <foodname> high in carbohydrates?',
-      fat: 'Do <foodname> contain lots of fat?',
-      calcium: 'Do <foodname> contain lots of calcium?'
-    };
-
-    return questions[category].replace('<foodname>', foodName);
-  };
-
-  var getImagePath = function(barcode){
-    var baseImgPath = 'img/food_images/';
-    return './' + baseImgPath + barcode + '.jpg';
-  };
-
-  var getNext = function () {
-    foodSvc.getNext(function (data) {
-      var question = {
-        foodName: data.foodName,
-        category: data.category,
-        name: getQuestion(data.category.toLowerCase(), data.foodName.toLowerCase()),
-        image: getImagePath(data.barcode),
-        answer: data.answer,
-      };
-      $scope.question = question;
-
-      // results.push(question);
-      console.log(data.answer);
-    });
-  };
-
   $scope.answer = function(index){
     if (index === '1') {
       $scope.result = $scope.question.answer ? 'question-bg-wrong' : 'question-bg-correct';
@@ -118,7 +85,6 @@ angular.module('starter.controllers', [])
   };
 
   $scope.cards = [];
-  // get cards
   var getCards = function () {
     var cards = [];
     foodSvc.getNext(function(data) {
@@ -140,30 +106,6 @@ angular.module('starter.controllers', [])
   getCards();
 })
 
-.controller('CardsCtrl', function($scope) {
-
-  // $scope.cards = Array.prototype.slice.call(cardTypes, 0, 0);
-
-  $scope.cardSwiped = function(index) {
-    $scope.addCard();
-  };
-
-  $scope.cardDestroyed = function(index) {
-    if (this.swipeCard.positive === true) {
-      $scope.$root.accepted++;
-    } else {
-      $scope.$root.rejected++;
-    }
-    $scope.cards.splice(index, 1);
-  };
-
-  $scope.addCard = function() {
-    var newCard = cardTypes[Math.floor(Math.random() * cardTypes.length)];
-    newCard.id = Math.random();
-    $scope.cards.push(angular.extend({}, newCard));
-  }
-})
-
 .controller('CardCtrl', function($scope, $ionicSwipeCardDelegate, $rootScope, $ionicGesture) {
 
   var doDragStart= function(e) {
@@ -172,7 +114,6 @@ angular.module('starter.controllers', [])
     var distance = Math.abs(point - e.gesture.touches[0].pageY);// - window.innerWidth/2);
 
     this.touchDistance = distance * 10;
-
 
     console.log('Touch distance', this.touchDistance);//this.touchDistance, width);
   }
