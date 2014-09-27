@@ -16,24 +16,7 @@ angular.module('starter.controllers', [])
 
   var resultRef = ref.child('results');
 
-  var updateFirebase = function (fruit, category, correct) {
-    resultRef.once('value', function (snapshot) {
-      console.log(snapshot.val());
-      var oldScore = snapshot.val()[fruit][category];
-      var newObj = {};
-
-      if (correct) {
-        newObj[fruit][category] = oldScore + 1;
-      } else {
-        newObj[fruit][category] = oldScore - 1;
-      }
-
-      resultRef.update(newObj);
-
-    }, function (errorObject) {
-      console.log('The read failed: ' + errorObject.code);
-    });
-  }
+  
   var authClient = $firebaseSimpleLogin(ref);
   // log user in using the Facebook provider for Simple Login
   $scope.loginWithFacebook = function() {
@@ -67,8 +50,50 @@ angular.module('starter.controllers', [])
       direction.right++;
     } else if ($event.gesture.direction === 'left') {
       direction.left++;
-    };
-  }
+    }
+  };
+  
+  var updateFirebase = function (resultsArray) {
+    // var obj = {};
+    for (var i = 0; i < resultsArray.length; i ++) {
+      var fruit = resultsArray[i].foodName;
+      var category = resultsArray[i].category;
+      var correct = resultsArray[i].result;
+      resultRef.once('value', function (snapshot) {
+        console.log(snapshot);
+        var oldCorrect;
+        var oldWrong;
+        var oldTotal;
+        var newObj = {};
+        newObj[fruit] = {};
+        newObj[fruit][category] = {};
+        
+        if (!snapshot.val()[fruit] || !snapshot.val()[fruit][category]) {
+          oldCorrect = 0;
+          oldWrong = 0;
+          oldTotal = 0;
+        } else { 
+          oldCorrect = snapshot.val()[fruit][category].correct || 0;
+          oldWrong = snapshot.val()[fruit][category].wrong || 0;
+          oldTotal = snapshot.val()[fruit][category].total;
+        }
+
+        if (correct) {
+          newObj[fruit][category].correct = oldCorrect + 1;
+          newObj[fruit][category].wrong = oldWrong;
+        } else {
+          newObj[fruit][category].correct = oldCorrect;
+          newObj[fruit][category].wrong = oldWrong + 1;
+        }
+        newObj[fruit][category].total = oldTotal + 1;
+
+        resultRef.update(newObj);
+
+      }, function (errorObject) {
+        console.log('The read failed: ' + errorObject.code);
+      });
+    }
+  };
 
   $scope.answer = function(idx){
     var answer = direction.right > direction.left;
@@ -88,10 +113,13 @@ angular.module('starter.controllers', [])
       results.push(wrongAnswer);
     }
     if (idx === 0) {
-      console.log(results);
-      resultRef.set(results);
-      foodSvc.saveResult(results);
-      $state.go('tab.account');
+      // formFireBaseObj(results);
+      // console.log(results);
+      // resultRef.set(results);
+      updateFirebase(results);
+      foodSvc.saveResult(results, function () {
+        $state.go('tab.account');
+      });
     }
     console.log('SCORE', count, ':', correct, 'correct', wrong, 'wrong');
   };
@@ -149,8 +177,10 @@ angular.module('starter.controllers', [])
 })
 
 .controller('AccountCtrl', function($scope, foodSvc) {
-  $scope.result = foodSvc.getResult();
-  console.log($scope.result);
+  foodSvc.getResult(function (results) {
+    $scope.results = results;
+    console.log($scope.results);
+  });
   var i;
   var people = [];
   for (i = 1; i < 10; i++) {
