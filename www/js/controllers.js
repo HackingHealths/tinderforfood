@@ -16,6 +16,24 @@ angular.module('starter.controllers', [])
 
   var resultRef = ref.child('results');
 
+  var updateFirebase = function (fruit, category, correct) {
+    resultRef.once('value', function (snapshot) {
+      console.log(snapshot.val());
+      var oldScore = snapshot.val()[fruit][category];
+      var newObj = {};
+
+      if (correct) {
+        newObj[fruit][category] = oldScore + 1;
+      } else {
+        newObj[fruit][category] = oldScore - 1;
+      }
+
+      resultRef.update(newObj);
+
+    }, function (errorObject) {
+      console.log('The read failed: ' + errorObject.code);
+    });
+  }
   var authClient = $firebaseSimpleLogin(ref);
   // log user in using the Facebook provider for Simple Login
   $scope.loginWithFacebook = function() {
