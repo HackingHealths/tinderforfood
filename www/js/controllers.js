@@ -10,8 +10,8 @@ angular.module('starter.controllers', [])
   var questions = {
     energy: 'Do <foodname> have lots of energy?',
     protein: 'Are <foodname> high in protein?',
-    fiber: 'Are <foodname> high in fibre?',
-    sugars: 'Do <foodname> contain lots of sugar?',
+    carbohydrate: 'Are <foodname> high in carbohydrate?',
+    fat: 'Do <foodname> contain lots of fat?',
     calcium: 'Do <foodname> contain lots of calcium?'
   }
 
