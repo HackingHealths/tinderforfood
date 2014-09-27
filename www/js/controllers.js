@@ -2,7 +2,7 @@
 
 angular.module('starter.controllers', [])
 
-.controller('HomeCtrl', function($scope, $state, $firebase, $firebaseSimpleLogin, foodSvc) {
+.controller('HomeCtrl', function($scope, $state, $firebase, $firebaseSimpleLogin, $ionicSwipeCardDelegate, $rootScope, foodSvc) {
 
   var ref = new Firebase('https://tinderforfood.firebaseio.com/');
   // create an AngularFire reference to the data
@@ -10,7 +10,6 @@ angular.module('starter.controllers', [])
   $scope.data = sync.$asObject();
   var syncObject = sync.$asObject();
   syncObject.$bindTo($scope, 'data');
-
 
   var resultRef = ref.child('results');
 
@@ -32,21 +31,21 @@ angular.module('starter.controllers', [])
   var results = [];
 
   $scope.activeSlide = 1;
-  var baseImgPath = 'img/food_images/';
-
-  var questions = {
-    energy: 'Do <foodname> have lots of energy?',
-    protein: 'Are <foodname> high in protein?',
-    carbohydrate: 'Are <foodname> high in carbohydrates?',
-    fat: 'Do <foodname> contain lots of fat?',
-    calcium: 'Do <foodname> contain lots of calcium?'
-  };
 
   var getQuestion = function(category, foodName){
+    var questions = {
+      energy: 'Do <foodname> have lots of energy?',
+      protein: 'Are <foodname> high in protein?',
+      carbohydrate: 'Are <foodname> high in carbohydrates?',
+      fat: 'Do <foodname> contain lots of fat?',
+      calcium: 'Do <foodname> contain lots of calcium?'
+    };
+
     return questions[category].replace('<foodname>', foodName);
   };
 
   var getImagePath = function(barcode){
+    var baseImgPath = 'img/food_images/';
     return './' + baseImgPath + barcode + '.jpg';
   };
 
@@ -65,8 +64,6 @@ angular.module('starter.controllers', [])
       console.log(data.answer);
     });
   };
-
-  getNext();
 
   $scope.answer = function(index){
     if (index === '1') {
@@ -97,28 +94,58 @@ angular.module('starter.controllers', [])
       $state.go('tab.account');
     }
     console.log(total, correct, wrong);
-    getNext();
-
   };
-})
 
-.controller('CardsCtrl', function($scope, $ionicSwipeCardDelegate, $rootScope) {
+    // keep score
   $rootScope.correct = 0;
   $rootScope.wrong = 0;
-  // var cardTypes = [
-  //   { title: 'Swipe down to clear the card', image: 'http://ionicframework.com.s3.amazonaws.com/demos/ionic-contrib-swipecards/pic.png' },
-  //   { title: 'Where is this?', image: 'http://ionicframework.com.s3.amazonaws.com/demos/ionic-contrib-swipecards/pic.png' },
-  //   { title: 'What kind of grass is this?', image: 'http://ionicframework.com.s3.amazonaws.com/demos/ionic-contrib-swipecards/pic2.png' },
-  //   { title: 'What beach is this?', image: 'http://ionicframework.com.s3.amazonaws.com/demos/ionic-contrib-swipecards/pic3.png' },
-  //   { title: 'What kind of clouds are these?', image: 'http://ionicframework.com.s3.amazonaws.com/demos/ionic-contrib-swipecards/pic4.png' }
-  // ];
 
-  $scope.cards = Array.prototype.slice.call(cardTypes, 0, 0);
+  var getQuestion = function(category, foodName){
+    var questions = {
+      energy: 'Do <foodname> have lots of energy?',
+      protein: 'Are <foodname> high in protein?',
+      carbohydrate: 'Are <foodname> high in carbohydrates?',
+      fat: 'Do <foodname> contain lots of fat?',
+      calcium: 'Do <foodname> contain lots of calcium?'
+    };
+
+    return questions[category].replace('<foodname>', foodName);
+  };
+
+  var getImagePath = function(barcode){
+    var baseImgPath = 'img/food_images/';
+    return './' + baseImgPath + barcode + '.jpg';
+  };
+
+  $scope.cards = [];
+  // get cards
+  var getCards = function () {
+    var cards = [];
+    foodSvc.getNext(function(data) {
+      for (var i = 0; i < data.length; i++){
+        cards.push({
+          foodName: data[i].foodName,
+          category: data[i].category,
+          name: getQuestion(data[i].category.toLowerCase(), data[i].foodName.toLowerCase()),
+          image: getImagePath(data[i].barcode),
+          answer: data[i].answer
+        });
+      }
+      $scope.cards = cards;
+
+      console.log('Cards: ', $scope.cards);
+    });
+  };
+
+  getCards();
+})
+
+.controller('CardsCtrl', function($scope) {
+
+  // $scope.cards = Array.prototype.slice.call(cardTypes, 0, 0);
 
   $scope.cardSwiped = function(index) {
     $scope.addCard();
-
-
   };
 
   $scope.cardDestroyed = function(index) {

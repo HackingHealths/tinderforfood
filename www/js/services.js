@@ -32,8 +32,8 @@ angular.module('starter.services', [])
   // console.log(foodData);
   var foodNameArray = Object.keys(foodData.foods);
   var categoryArray = ['Energy', 'Protein', 'Calcium', 'Fat', 'Carbohydrate'];
-  
-  
+
+
   (function () {
     for (var key in foodData.foods) {
       var array = Object.keys(foodData.foods[key]);
@@ -53,7 +53,7 @@ angular.module('starter.services', [])
     var answer = foodData.foods[food][category].value_per_hundred > foodData.averages[category] ? true : false;
     return answer;
   };
- 
+
   var createSet = function () {
     var questionsArray = [];
     for (var i = 0; i < 10; i++) {
@@ -68,6 +68,7 @@ angular.module('starter.services', [])
         answer: answer
       });
     }
+    return questionsArray;
   };
 
   return {
