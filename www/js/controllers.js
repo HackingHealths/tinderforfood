@@ -80,8 +80,8 @@ angular.module('starter.controllers', [])
   };
 
   var getImagePath = function(barcode){
-    var baseImgPath = 'img/food_images/';
-    return './' + baseImgPath + barcode + '.jpg';
+    var baseImgPath = 'http://tinderforfood.s3.amazonaws.com/food_images/';
+    return baseImgPath + barcode + '.jpg';
   };
 
   $scope.cards = [];
