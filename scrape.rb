@@ -41,7 +41,6 @@ hash_food_item = [
 	{"name" => "Raisins", "barcode" => 2416},
 	{"name" => "Raspberries", "barcode" => 2419},
 	{"name" => "Strawberries", "barcode" => 2430},
-	{"name" => "Rowal", "barcode" => 2473},
 	{"name" => "Clementines", "barcode" => 2478}
 ]
 
