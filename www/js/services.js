@@ -29,19 +29,32 @@ angular.module('starter.services', [])
 
 .factory('foodSvc', function() {
   // Might use a resource here that returns a JSON array
-
+  // console.log(foodData);
   var foodNameArray = Object.keys(foodData.foods);
-  var categoryArray = ['Energy', 'Protein', 'Fiber', 'Sugars', 'Calcium'];
+  var categoryArray = ['Energy', 'Protein', 'Calcium', 'Fat', 'Carbohydrate'];
   
-  console.log(foodNameArray);
-  console.log(categoryArray);
   
+  (function () {
+    for (var key in foodData.foods) {
+      var array = Object.keys(foodData.foods[key]);
+      for (var i = 0; i < categoryArray.length; i++) {
+        if (array.indexOf(categoryArray[i]) === -1) {
+          console.log('fuck! ', key, categoryArray[i]);
+        }
+      }
+    }
+  })();
+
   var randomNumber = function (max) {
     return Math.floor(Math.random() * max);
   };
 
-  var compare = function (foodOne, foodTwo, category) {
-    return false;
+  var compare = function (food, category) {
+    console.log(foodData);
+    console.log(food, category);
+    var answer = foodData.foods[food][category].value_per_hundred > foodData.averages[category] ? true : false;
+    console.log(foodData.foods[food][category].value_per_hundred, foodData.averages[category], answer);
+    return answer;
   };
  
   var createSet = function () {
