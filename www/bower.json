@@ -1,0 +1,22 @@
+{
+  "name": "tinderforfood",
+  "version": "0.0.0",
+  "homepage": "https://github.com/HackingHealths/tinderforfood",
+  "authors": [
+    "jyek <justinyek@gmail.com>"
+  ],
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "font-awesome": "~4.2.0"
+  }
+}
