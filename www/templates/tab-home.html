@@ -1,6 +1,8 @@
-<ion-view title="Dashboard">
+<ion-view title="Home">
   <ion-content class="padding">
-    <h1 >Dash</h1>
-    <div on-swipe-left='swipeLeft()' on-swipe-right='swipeRight()' style="height: 200px; background-color: black;">Swipe</div>
+    <!-- <h1 >Home</h1> -->
+    <ul>
+      <li ng-repeat="food in foodArray" on-swipe-left='answerQuestion("left")' on-swipe-right='answerQuestion("right")' style="height: 200px; width: 100%; background-color: yellow; position: absolute;">{{ food }}</li>
+    </ul>
   </ion-content>
 </ion-view>

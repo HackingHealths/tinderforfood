@@ -3,21 +3,27 @@
 angular.module('starter.controllers', [])
 
 .controller('HomeCtrl', function($scope, $ionicPopup) {
-  $scope.swipeLeft = function () { 
-    console.log('swiped left');
-    // var alertPopup = 
-    $ionicPopup.alert({
-     title: 'Swiped left!',
-     // template: 'It might taste good'
-    });
-  };
-  $scope.swipeRight = function () {
-    console.log('swiped right');
+  $scope.foodArray = ['food1', 'food2', 'food3'];
 
-    $ionicPopup.alert({
-      title: 'Swiped right!',
-     // template: 'It might taste good'
-    });
+  var barcodes = [];
+  var foods = {
+  };
+
+  $scope.answerQuestion = function (direction) {
+    if (direction === 'left') {
+      console.log('swiped left');
+      $ionicPopup.alert({
+        title: 'Swiped left!',
+      });
+    } else if (direction === 'right') {
+      console.log('swiped right');
+      $ionicPopup.alert({
+        title: 'Swiped right!',
+       // template: 'It might taste good'
+      });
+    }
+    
+    $scope.foodArray.pop();
   };
 })
 
