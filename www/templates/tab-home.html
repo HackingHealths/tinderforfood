@@ -1,10 +1,18 @@
-<ion-view title="Home">
+<ion-view title="Gin Hong">
   <ion-content class="padding">
-    <!-- <h1 >Home</h1> -->
-    <ul>
-      <li ng-repeat="food in foodArray" on-swipe-left='answerQuestion("left")' on-swipe-right='answerQuestion("right")' style="height: 200px; width: 100%; background-color: yellow; position: absolute;">
-        <img ng-src="{{ food.product.image_small_url }}"/>
-      </li>
-    </ul>
+    <ion-slide-box show-pager="false" active-slide="1" on-slide-changed="answerQuestion($index)">
+      <ion-slide>
+        <div class="box left"><h1>Left</h1></div>
+      </ion-slide>
+      <ion-slide>
+        <div class="box question">
+          <h1>{{ question.name }}</h1>
+          <div class="image" style="background: url(question.url)"></div>
+        </div>
+      </ion-slide>
+      <ion-slide>
+        <div class="box right"><h1>right</h1></div>
+      </ion-slide>
+    </ion-slide-box>
   </ion-content>
 </ion-view>
