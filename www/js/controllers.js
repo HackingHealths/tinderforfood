@@ -2,7 +2,8 @@
 
 angular.module('starter.controllers', [])
 
-.controller('HomeCtrl', function($scope, $ionicPopup) {
+.controller('HomeCtrl', function($scope, $ionicPopup, foodSvc) {
+
   $scope.foodArray = ['food1', 'food2', 'food3'];
 
   var barcodes = [];

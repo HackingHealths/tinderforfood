@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('starter.services', [])
 
 /**
@@ -22,5 +24,25 @@ angular.module('starter.services', [])
       // Simple index lookup
       return friends[friendId];
     }
-  }
+  };
+})
+
+.factory('foodSvc', function($http) {
+  // Might use a resource here that returns a JSON array
+
+  // Some fake testing data
+ 
+  return {
+    getAll: function(cb) {
+      $http.get('http://world.openfoodfacts.org/api/v0/products/01618419')
+      .success(function (data) {
+        console.log(data);
+        if(cb) { cb(data) }
+      });
+    }
+    // get: function(friendId) {
+    //   // Simple index lookup
+    //   return friends[friendId];
+    // }
+  };
 });
