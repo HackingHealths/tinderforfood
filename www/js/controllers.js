@@ -12,7 +12,25 @@ angular.module('starter.controllers', [])
   syncObject.$bindTo($scope, 'data');
 
   var resultRef = ref.child('results');
-
+  
+  var updateFirebase = function (fruit, category, correct) {
+    resultRef.once('value', function (snapshot) {
+      console.log(snapshot.val());
+      var oldScore = snapshot.val()[fruit][category];
+      var newObj = {};
+      
+      if (correct) {
+        newObj[fruit][category] = oldScore + 1;
+      } else {
+        newObj[fruit][category] = oldScore - 1;
+      }
+      
+      resultRef.update(newObj);
+    
+    }, function (errorObject) {
+      console.log('The read failed: ' + errorObject.code);
+    });
+  }
   var authClient = $firebaseSimpleLogin(ref);
   // log user in using the Facebook provider for Simple Login
   $scope.loginWithFacebook = function() {
@@ -38,7 +56,6 @@ angular.module('starter.controllers', [])
     } else {
       $scope.result = $scope.question.answer ? 'question-bg-correct' : 'question-bg-wrong';
     }
-
     total++;
     if ( $scope.result === 'question-bg-correct' ) {
       correct++;
@@ -53,9 +70,10 @@ angular.module('starter.controllers', [])
     }
     console.log(total, correct, wrong);
     if (total < 10) {
-      getNext();
+      // getNext();
     } else {
       console.log(results);
+
       resultRef.set(results);
 
       $state.go('tab.account');
