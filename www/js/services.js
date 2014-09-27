@@ -79,12 +79,13 @@ angular.module('starter.services', [])
       cb(set);
     },
 
-    saveResult: function (result) {
+    saveResult: function (result, cb) {
       latestResult = result;
+      cb();
     },
 
-    getResult: function () {
-      return result;
+    getResult: function (cb) {
+      cb(latestResult);
     }
 
   };
