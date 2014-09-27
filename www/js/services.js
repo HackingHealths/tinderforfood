@@ -71,10 +71,20 @@ angular.module('starter.services', [])
     return questionsArray;
   };
 
+  var latestResult;
+
   return {
     getNext: function (cb) {
       var set = createSet();
       cb(set);
+    },
+
+    saveResult: function (result) {
+      latestResult = result;
+    },
+
+    getResult: function () {
+      return result;
     }
 
   };

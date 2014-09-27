@@ -4,6 +4,9 @@ angular.module('starter.controllers', [])
 
 .controller('HomeCtrl', function($scope, $state, $firebase, $firebaseSimpleLogin, $ionicSwipeCardDelegate, $rootScope, foodSvc) {
 
+  /*
+   * Firebase stuff
+   */
   var ref = new Firebase('https://tinderforfood.firebaseio.com/');
   // create an AngularFire reference to the data
   var sync = $firebase(ref);
@@ -12,21 +15,21 @@ angular.module('starter.controllers', [])
   syncObject.$bindTo($scope, 'data');
 
   var resultRef = ref.child('results');
-  
+
   var updateFirebase = function (fruit, category, correct) {
     resultRef.once('value', function (snapshot) {
       console.log(snapshot.val());
       var oldScore = snapshot.val()[fruit][category];
       var newObj = {};
-      
+
       if (correct) {
         newObj[fruit][category] = oldScore + 1;
       } else {
         newObj[fruit][category] = oldScore - 1;
       }
-      
+
       resultRef.update(newObj);
-    
+
     }, function (errorObject) {
       console.log('The read failed: ' + errorObject.code);
     });
@@ -43,48 +46,59 @@ angular.module('starter.controllers', [])
   // $scope.loginWithFacebook();
   console.log('logging in with facebook');
 
-  var total = 0;
+  /*
+   * Keep track of score
+   */
+  var count = 0;
   var correct = 0;
   var wrong = 0;
   var results = [];
-
-  $scope.activeSlide = 1;
-
-  $scope.answer = function(index){
-    if (index === '1') {
-      $scope.result = $scope.question.answer ? 'question-bg-wrong' : 'question-bg-correct';
-    } else {
-      $scope.result = $scope.question.answer ? 'question-bg-correct' : 'question-bg-wrong';
+  var direction = {
+    right: 0,
+    left: 0,
+    reset: function(){
+      this.right = 0;
+      this.left = 0;
     }
-    total++;
-    if ( $scope.result === 'question-bg-correct' ) {
+  };
+
+  $scope.dragged = function($event){
+    if ($event.gesture.direction === 'right'){
+      direction.right++;
+    } else if ($event.gesture.direction === 'left') {
+      direction.left++;
+    };
+  }
+
+  $scope.answer = function(idx){
+    var answer = direction.right > direction.left;
+    console.log('Question', idx, 'answer:', answer)
+    direction.reset();
+    count++;
+
+    if ( answer === $scope.cards[idx].answer ) {
       correct++;
-      var correctAnswer = $scope.question;
+      var correctAnswer = $scope.cards[idx];
       correctAnswer.result = true;
       results.push(correctAnswer);
     } else {
       wrong++;
-      var wrongAnswer = $scope.question;
+      var wrongAnswer = $scope.cards[idx];
       wrongAnswer.result = false;
       results.push(wrongAnswer);
     }
-    console.log(total, correct, wrong);
-    if (total < 10) {
-      // getNext();
-    } else {
+    if (idx === 0) {
       console.log(results);
-
       resultRef.set(results);
-
+      foodSvc.saveResult(results);
       $state.go('tab.account');
     }
-    console.log(total, correct, wrong);
+    console.log('SCORE', count, ':', correct, 'correct', wrong, 'wrong');
   };
 
-    // keep score
-  $rootScope.correct = 0;
-  $rootScope.wrong = 0;
-
+  /*
+   * Initiate cards
+   */
   var getQuestion = function(category, foodName){
     var questions = {
       energy: 'Do <foodname> have lots of energy?',
@@ -103,7 +117,7 @@ angular.module('starter.controllers', [])
   };
 
   $scope.cards = [];
-  var getCards = function () {
+  var getCards = function() {
     var cards = [];
     foodSvc.getNext(function(data) {
       for (var i = 0; i < data.length; i++){
@@ -121,31 +135,9 @@ angular.module('starter.controllers', [])
     });
   };
 
-  getCards();
-})
-
-.controller('CardCtrl', function($scope, $ionicSwipeCardDelegate, $rootScope, $ionicGesture) {
-
-  var doDragStart= function(e) {
-    var width = this.el.offsetWidth;
-    var point = window.innerWidth / 2 + this.rotationDirection * (width / 2)
-    var distance = Math.abs(point - e.gesture.touches[0].pageY);// - window.innerWidth/2);
-
-    this.touchDistance = distance * 10;
-
-    console.log('Touch distance', this.touchDistance);//this.touchDistance, width);
+  if($scope.cards.length === 0) {
+    getCards();
   }
-
-  $scope.accept = function () {
-    var card = $ionicSwipeCardDelegate.getSwipebleCard($scope);
-    $rootScope.accepted++;
-    card.swipe(true);
-  }
-  $scope.reject = function() {
-    var card = $ionicSwipeCardDelegate.getSwipebleCard($scope);
-    $rootScope.rejected++;
-    card.swipe();
-  };
 })
 
 .controller('FriendsCtrl', function($scope, Friends) {
@@ -156,10 +148,12 @@ angular.module('starter.controllers', [])
   $scope.friend = Friends.get($stateParams.friendId);
 })
 
-.controller('AccountCtrl', function($scope) {
+.controller('AccountCtrl', function($scope, foodSvc) {
+  $scope.result = foodSvc.getResult();
+  console.log($scope.result);
   var i;
   var people = [];
-  for (i = 1; i < 10; i++) { 
+  for (i = 1; i < 10; i++) {
     people.push(i.toString())
   };
   $scope.array = people
