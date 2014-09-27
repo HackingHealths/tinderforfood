@@ -1,11 +1,10 @@
 <ion-view title="Gin Hong">
   <ion-content class="padding">
-    <swipe-cards on-card-swipe="onSwipe($event)">
 
     <swipe-cards>
-      <swipe-card ng-repeat="card in cards" on-destroy="cardDestroyed($index)" on-swipe="cardSwiped($index)" class="box question">
+      <swipe-card on-destroy="answer($index)" on-drag="dragged($event)" ng-repeat="card in cards" class="box question">
         <h3 class="text-center">{{ card.name }}</h3>
-        <div on-card-swipe="cardSwiped()" on-swipe-left="answer('1')" on-swipe-right="answer('2')">
+        <div>
           <img class="question-image" src="{{card.image}}"></img>
           <div class="row">
             <div class="question-no col col-33"><i class="fa fa-lg fa-close"></i></div>
