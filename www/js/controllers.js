@@ -209,7 +209,7 @@ angular.module('starter.controllers', [])
 
   var getImagePath = function(barcode){
     var baseImgPath = 'http://tinderforfood.s3.amazonaws.com/food_images/';
-    return baseImgPath + barcode + '.jpg';
+    return baseImgPath + barcode + '.jpeg';
   };
 
   var loaded = 0;
