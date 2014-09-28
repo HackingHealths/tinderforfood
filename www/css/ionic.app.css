@@ -7854,6 +7854,14 @@ p, h1, h2, h3, h4, h5, h6 {
 .question-bg-wrong {
   background-color: #FF4136; }
 
+.highlight-answer-right{
+	background-color:#D5D9D3;
+}
+
+.highlight-answer-wrong{
+	background-color:red;
+}
+
 .text-center {
   text-align: center; }
 

@@ -225,6 +225,7 @@ angular.module('starter.controllers', [])
         console.log(fruit);
         var category = userResults[i].category;
         var percentageRight = otherResults[fruit][category].correct / otherResults[fruit][category].total;
+        percentageRight = Math.round(percentageRight*100)
         // console.log(category);
         // var result = userResults[i].result;
         // console.log(result);
