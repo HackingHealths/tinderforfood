@@ -29,7 +29,6 @@ angular.module('starter.services', [])
 
 .factory('foodSvc', function() {
   // Might use a resource here that returns a JSON array
-  // console.log(foodData);
   var foodNameArray = Object.keys(foodData.foods);
   var categoryArray = ['Energy', 'Protein', 'Calcium', 'Fat', 'Carbohydrate'];
 
@@ -81,12 +80,10 @@ angular.module('starter.services', [])
 
     saveResult: function (result, cb) {
       latestResult = result;
-      console.log('latest restul', latestResult);
       cb();
     },
 
     getResult: function (cb) {
-      console.log('latest restul', latestResult);
       cb(latestResult);
     }
 
