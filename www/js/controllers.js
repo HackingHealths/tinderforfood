@@ -17,17 +17,19 @@ angular.module('starter.controllers', [])
   var resultRef = ref.child('results');
   var totalRef = ref.child('history');
 
-  var authClient = $firebaseSimpleLogin(ref);
-  // log user in using the Facebook provider for Simple Login
-  $scope.loginWithFacebook = function() {
-      authClient.$login('facebook').then(function(user) {
-      console.log('Logged in as: ' + user.uid);
-    }, function(error) {
-      console.error('Login failed: ' + error);
-    });
-  };
-  // $scope.loginWithFacebook();
-  console.log('logging in with facebook');
+  // Uncomment below to refresh the database
+  // resultRef.set({
+  //   Apples: {
+  //     Sugars: {
+  //       total: 0
+  //     }
+  //   }
+  // });
+  // totalRef.set({
+  //   total: 0,
+  //   correct: 0,
+  //   wrong: 0
+  // });
 
   /*
    * Keep track of score
@@ -53,18 +55,9 @@ angular.module('starter.controllers', [])
     }
   };
 
+  
+
   var updateFirebase = function (resultsArray) {
-    //Code to refresh database
-    // resultRef.set({
-    //   result: {
-    //     Apples: {
-    //       Sugars: {
-    //         total: 0
-    //       }
-    //     }
-    //   }
-    // });
-    // var obj = {};
     for (var i = 0; i < resultsArray.length; i ++) {
       var fruit = resultsArray[i].foodName;
       var category = resultsArray[i].category;
@@ -152,8 +145,6 @@ angular.module('starter.controllers', [])
     currentQuestionIdx --;
 
     if (idx === 0) {
-
-
       // formFireBaseObj(results);
       // resultRef.set(results);
       updateFirebase(results);
@@ -301,7 +292,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('AccountCtrl', function($rootScope, $scope, $firebase, $state, foodSvc) {
+.controller('AccountCtrl', function($rootScope, $scope, $firebase, $state, $ionicPopup, foodSvc) {
   $rootScope.scrollable = false;
 
   var rootRef = new Firebase('https://tinderforfood.firebaseio.com/');
@@ -313,9 +304,18 @@ angular.module('starter.controllers', [])
   var resultRef = rootRef.child('results');
 
   foodSvc.getResult(function (results) {
-    // if (!results) {
-    //   $state.go('tab.home');
-    // }
+    if (!results) {
+      $scope.showAlert = function() {
+        var alertPopup = $ionicPopup.alert({
+          title: 'Oops!',
+          template: 'You need to finish the questions !'
+        });
+        alertPopup.then(function(res) {
+          $state.go('tab.home');
+        });
+      };
+      $scope.showAlert();
+    }
     //result of the 10 questions that user just answered
     var userResults = results;
     var numTotalRight = 0;
@@ -348,6 +348,9 @@ angular.module('starter.controllers', [])
     console.log($scope.results);
   });
 
+  $scope.goToHome = function () {
+    $state.go('tab.home');
+  };
 
   var i;
   var peopleRight = [];
