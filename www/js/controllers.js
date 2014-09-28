@@ -16,7 +16,7 @@ angular.module('starter.controllers', [])
 
   var resultRef = ref.child('results');
 
-  
+
   var authClient = $firebaseSimpleLogin(ref);
   // log user in using the Facebook provider for Simple Login
   $scope.loginWithFacebook = function() {
@@ -52,7 +52,7 @@ angular.module('starter.controllers', [])
       direction.left++;
     }
   };
-  
+
   var updateFirebase = function (resultsArray) {
     // var obj = {};
     for (var i = 0; i < resultsArray.length; i ++) {
@@ -67,12 +67,12 @@ angular.module('starter.controllers', [])
         var newObj = {};
         newObj[fruit] = {};
         newObj[fruit][category] = {};
-        
+
         if (!snapshot.val()[fruit] || !snapshot.val()[fruit][category]) {
           oldCorrect = 0;
           oldWrong = 0;
           oldTotal = 0;
-        } else { 
+        } else {
           oldCorrect = snapshot.val()[fruit][category].correct || 0;
           oldWrong = snapshot.val()[fruit][category].wrong || 0;
           oldTotal = snapshot.val()[fruit][category].total;
@@ -143,6 +143,15 @@ angular.module('starter.controllers', [])
     var baseImgPath = 'http://tinderforfood.s3.amazonaws.com/food_images/';
     return baseImgPath + barcode + '.jpg';
   };
+
+  var loaded = 0;
+  $scope.viewReady = false;
+  $scope.imageLoaded = function(){
+    loaded++;
+    if (loaded === 10){
+      $scope.viewReady = true;
+    }
+  }
 
   $scope.cards = [];
   var getCards = function() {
