@@ -1,6 +1,10 @@
 <ion-view title="Gin Hong">
   <ion-content class="padding">
-    <div ng-hide="viewReady" class="spinner"><i class="fa fa-circle-o-notch fa-spin"></i></div>
+    <div ng-hide="viewReady" class="spinner">
+      <i class="fa fa-circle-o-notch fa-spin"></i>
+      <h3>Did You Know</h3>
+      <p>{{ viewLoadingFact }}</p>
+    </div>
     <swipe-cards ng-show="viewReady">
       <swipe-card on-destroy="answer($index)" on-drag="dragged($event)" ng-repeat="card in cards" class="box question" style="border: 1px solid #bfbfbb; padding:10px;">
         <h3 class="text-center title">{{ card.name }}</h3>
