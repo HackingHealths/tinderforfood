@@ -101,6 +101,8 @@ angular.module('starter.controllers', [])
     direction.reset();
     count++;
 
+
+
     if ( answer === $scope.cards[idx].answer ) {
       correct++;
       var correctAnswer = $scope.cards[idx];
@@ -129,11 +131,16 @@ angular.module('starter.controllers', [])
    */
   var getQuestion = function(category, foodName){
     var questions = {
-      energy: 'Do <foodname> have lots of energy?',
-      protein: 'Are <foodname> high in protein?',
-      carbohydrate: 'Are <foodname> high in carbohydrates?',
-      fat: 'Do <foodname> contain lots of fat?',
-      calcium: 'Do <foodname> contain lots of calcium?'
+      energy0: 'Do <foodname> have lots of energy?',
+      energy1: 'Do <foodname> have very less energy?',
+      protein0: 'Are <foodname> high in protein?',
+      protein1: 'Are <foodname> low in protein?',
+      carbohydrate0: 'Are <foodname> high in carbohydrates?',
+      carbohydrate1: 'Are <foodname> low in carbohydrates?',
+      fat0: 'Do <foodname> contain lots of fat?',
+      fat1: 'Do <foodname> contain very less fat?',
+      calcium0: 'Do <foodname> contain high in calcium?',
+      calcium1: 'Do <foodname> contain low in calcium?'
     };
 
     return questions[category].replace('<foodname>', foodName);
@@ -149,12 +156,24 @@ angular.module('starter.controllers', [])
     var cards = [];
     foodSvc.getNext(function(data) {
       for (var i = 0; i < data.length; i++){
+        // semi-randomly parse through different paraphrase of questions
+        var type = i % 2;
+
+        // correspond the answer to the question
+        var answer;
+        if (type == 0){
+          answer = data[i].answer
+        }
+        else{
+          answer = !data[i].answer
+        }
+
         cards.push({
           foodName: data[i].foodName,
           category: data[i].category,
-          name: getQuestion(data[i].category.toLowerCase(), data[i].foodName.toLowerCase()),
+          name: getQuestion(data[i].category.toLowerCase()+String(type), data[i].foodName.toLowerCase()),
           image: getImagePath(data[i].barcode),
-          answer: data[i].answer
+          answer: answer
         });
       }
       $scope.cards = cards;
