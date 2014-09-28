@@ -103,8 +103,12 @@ angular.module('starter.controllers', [])
       });
     }
   };
-
+  var currentQuestionIdx = 9;
   $scope.answer = function(idx){
+    console.log(idx, currentQuestionIdx);
+    if (idx > currentQuestionIdx) {
+      return;
+    }
     var answer = direction.right > direction.left;
     // console.log('Question', idx, 'answer:', answer)
     direction.reset();
@@ -121,6 +125,8 @@ angular.module('starter.controllers', [])
       wrongAnswer.result = false;
       results.push(wrongAnswer);
     }
+    currentQuestionIdx --;
+
     if (idx === 0) {
       // formFireBaseObj(results);
       // resultRef.set(results);
