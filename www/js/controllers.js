@@ -265,6 +265,10 @@ angular.module('starter.controllers', [])
         var fruit = userResults[i].foodName;
         var category = userResults[i].category;
         var percentageRight = otherResults[fruit][category].correct / otherResults[fruit][category].total;
+        percentageRight = Math.round(percentageRight*100)
+        // console.log(category);
+        // var result = userResults[i].result;
+        // console.log(result);
         userResults[i].percentageRight = percentageRight;
         // $scope.results[i] = {
         //   fruit: fruit,

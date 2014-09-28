@@ -1,32 +1,32 @@
 <ion-view title="Answers">
   <ion-content class="padding">
-		<div class="list card text-center">
+		<div class="list card text-center" ng-repeat="result in results track by $index">
 			<div class="item item-body">
-			  	Does apples contain lots of calcium?
+			  	{{ result.name }}
 			</div>
 			<div class="item item-body">
-			  <div>The answer is</div>
-			  <h1>YES</h1>
+			  <h1>{{ result.answer ? "Yes" : "No" }}</h1>
 			</div>
 			<div class="item item-body">
-			  <span style="display:inline-block; width:49%; vertical-align:top; background-color:#D5D9D3;">
-			  	<div style="color:green; font-size:35px; padding:10px;">27%</div>
+			  <span style="display:inline-block; width:49%; vertical-align:top;" ng-class="{ 'question-bg-correct': result.result }">
+			  	<div style="color:green; font-size:35px; padding:10px;">{{ result.percentageRight }}%</div>
 			  	<div style="color:green;">Right</div>
 				  <div style="padding:15px;">
 			  	  <span ng-repeat="element in array">
 					  	<img ng-src="http://tinderforfood.s3.amazonaws.com/people_images/{{ element }}.jpg" style="width:20px;" />
 					  </span>
 					</div>
-					<div>You</div>
+					<div>{{ result.result ? "You" : "" }}</div>
 			  </span>
-			  <span style="display:inline-block; width:49%; vertical-align:top;">
-			  	<div style="color:red; font-size:35px; padding:10px;">73%</div>
+			  <span style="display:inline-block; width:49%; vertical-align:top;" ng-class="{ 'question-bg-wrong': !result.result }">
+			  	<div style="color:red; font-size:35px; padding:10px;">{{ 100 - result.percentageRight }}%</div>
 			  	<div style="color:red;">Wrong</div>
 			  	<div style="padding:15px;">
 			  	  <span ng-repeat="element in array">
 					  	<img ng-src="http://tinderforfood.s3.amazonaws.com/people_images/{{ element }}.jpg" style="width:20px;" ng-class='{ sdlf: noShow' />
 					  </span>
 					</div>
+					<div>{{ result.result ? "" : "You" }}</div>
 			  </span>
 		  </div>
 		</div>
