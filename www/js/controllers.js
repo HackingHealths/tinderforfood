@@ -2,7 +2,8 @@
 
 angular.module('starter.controllers', [])
 
-.controller('HomeCtrl', function($scope, $state, $firebase, $firebaseSimpleLogin, $ionicSwipeCardDelegate, $rootScope, $timeout, foodSvc) {
+.controller('HomeCtrl', function($rootScope, $scope, $state, $firebase, $firebaseSimpleLogin, $ionicSwipeCardDelegate, $timeout, foodSvc) {
+  $rootScope.scrollable = true;
   /*
    * Firebase stuff
    */
@@ -14,7 +15,7 @@ angular.module('starter.controllers', [])
   syncObject.$bindTo($scope, 'data');
 
   var resultRef = ref.child('results');
-
+  var totalRef = ref.child('history');
 
   var authClient = $firebaseSimpleLogin(ref);
   // log user in using the Facebook provider for Simple Login
@@ -103,7 +104,12 @@ angular.module('starter.controllers', [])
     }
   };
 
+  var currentQuestionIdx = 9;
   $scope.answer = function(idx){
+    console.log(idx, currentQuestionIdx);
+    if (idx > currentQuestionIdx) {
+      return;
+    }
     var answer = direction.right > direction.left;
     // console.log('Question', idx, 'answer:', answer)
     direction.reset();
@@ -114,13 +120,40 @@ angular.module('starter.controllers', [])
       var correctAnswer = $scope.cards[idx];
       correctAnswer.result = true;
       results.push(correctAnswer);
+
+      totalRef.once('value', function (snapshot) {
+        var current = snapshot.val();
+        current.total = current.total || 0;
+        current.correct = current.correct || 0;
+        current.wrong = current.wrong || 0;
+
+        current.total ++;
+        current.correct ++;
+        totalRef.update(current);
+      });
+
     } else {
       wrong++;
       var wrongAnswer = $scope.cards[idx];
       wrongAnswer.result = false;
       results.push(wrongAnswer);
+
+      totalRef.once('value', function (snapshot) {
+        var current = snapshot.val() || {};
+        current.total = current.total || 0;
+        current.correct = current.correct || 0;
+        current.wrong = current.wrong || 0;
+
+        current.total ++;
+        current.wrong ++;
+        totalRef.update(current);
+      });
     }
+    currentQuestionIdx --;
+
     if (idx === 0) {
+
+    
       // formFireBaseObj(results);
       // resultRef.set(results);
       updateFirebase(results);
@@ -191,7 +224,7 @@ angular.module('starter.controllers', [])
 
   var loaded = 0;
   $scope.viewReady = false;
-  $scope.viewTitle = "Gin Hong"
+  $scope.viewTitle = "Gin Hong 健康"
   getLoadingFact(true);
   $scope.imageLoaded = function(){
     loaded++;
@@ -270,8 +303,9 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('AccountCtrl', function($scope, $firebase, $state, foodSvc) {
-
+.controller('AccountCtrl', function($rootScope, $scope, $firebase, $state, foodSvc) {
+  $rootScope.scrollable = false;
+  
   var rootRef = new Firebase('https://tinderforfood.firebaseio.com/');
   var sync = $firebase(rootRef);
   $scope.data = sync.$asObject();
@@ -312,9 +346,14 @@ angular.module('starter.controllers', [])
 
 
   var i;
-  var people = [];
+  var peopleRight = [];
+  var peopleWrong = [];
   for (i = 1; i < 10; i++) {
-    people.push(i.toString())
+    var j = Math.round(Math.random()*31);
+    peopleRight.push(j.toString()); 
+    var k = Math.round(Math.random()*31);
+    peopleWrong.push(k.toString());
   };
-  $scope.array = people
+  $scope.peopleRight = peopleRight;
+  $scope.peopleWrong = peopleWrong;
 });

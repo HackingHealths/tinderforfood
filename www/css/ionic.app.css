@@ -7871,7 +7871,12 @@ $ios-transition-box-shadow-end: -200px 0px 200px rgba(0,0,0,0.15), -5px 0px 5px 
   -webkit-transform: scale(1, 1);
   left: 50%;
   top: 50%;
+<<<<<<< HEAD
   margin-left: -150px;
+=======
+  margin-left: -50%;
+  width: 100%;
+>>>>>>> 434cfa9b4b1abf717f5ee69fd0a3a4b21e39b740
   box-sizing: border-box;
   background-color: white;
   border-radius: 4px;
