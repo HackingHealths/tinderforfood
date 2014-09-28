@@ -6,7 +6,7 @@ angular.module('starter.directives', [])
     restrict: 'A',
     link: function($scope, $element, $attr) {
       $document.on('touchmove', function(e) {
-        console.log($attr.noScroll)
+        // console.log($attr.noScroll)
         if ($attr.noScroll === 'true') {
           e.preventDefault();
         }
