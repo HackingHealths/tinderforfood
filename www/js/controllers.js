@@ -105,7 +105,7 @@ angular.module('starter.controllers', [])
 
   $scope.answer = function(idx){
     var answer = direction.right > direction.left;
-    console.log('Question', idx, 'answer:', answer)
+    // console.log('Question', idx, 'answer:', answer)
     direction.reset();
     count++;
 
@@ -122,14 +122,13 @@ angular.module('starter.controllers', [])
     }
     if (idx === 0) {
       // formFireBaseObj(results);
-      // console.log(results);
       // resultRef.set(results);
       updateFirebase(results);
       foodSvc.saveResult(results, function () {
         $state.go('tab.account');
       });
     }
-    console.log('SCORE', count, ':', correct, 'correct', wrong, 'wrong');
+    // console.log('SCORE', count, ':', correct, 'correct', wrong, 'wrong');
   };
 
   /*
@@ -246,7 +245,7 @@ angular.module('starter.controllers', [])
   $scope.friend = Friends.get($stateParams.friendId);
 })
 
-.controller('AccountCtrl', function($scope, $firebase, foodSvc) {
+.controller('AccountCtrl', function($scope, $firebase, $state, foodSvc) {
 
   var rootRef = new Firebase('https://tinderforfood.firebaseio.com/');
   var sync = $firebase(rootRef);
@@ -257,22 +256,20 @@ angular.module('starter.controllers', [])
   var resultRef = rootRef.child('results');
 
   foodSvc.getResult(function (results) {
+    // if (!results) {
+    //   $state.go('tab.home');
+    // }
     //result of the 10 questions that user just answered
     var userResults = results;
-    console.log(userResults);
+
     resultRef.once('value', function (snapshot) {
       var otherResults = snapshot.val();
       //result of all users history
       for (var i = 0; i < userResults.length; i ++) {
         var fruit = userResults[i].foodName;
-        console.log(fruit);
         var category = userResults[i].category;
         var percentageRight = otherResults[fruit][category].correct / otherResults[fruit][category].total;
-        // console.log(category);
-        // var result = userResults[i].result;
-        // console.log(result);
         userResults[i].percentageRight = percentageRight;
-        console.log(percentageRight);
         // $scope.results[i] = {
         //   fruit: fruit,
         //   category: category,

@@ -7820,7 +7820,7 @@ p, h1, h2, h3, h4, h5, h6 {
   font-weight: 300; }
 
 .box {
-  height: 500px;
+  height: 450px;
   overflow: none;
   -webkit-transition: background-color 500ms ease-out;
   -moz-transition: background-color 500ms ease-out;
