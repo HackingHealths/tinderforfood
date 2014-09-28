@@ -2,7 +2,8 @@
 
 angular.module('starter.controllers', [])
 
-.controller('HomeCtrl', function($scope, $state, $firebase, $firebaseSimpleLogin, $ionicSwipeCardDelegate, $rootScope, $timeout, foodSvc) {
+.controller('HomeCtrl', function($rootScope, $scope, $state, $firebase, $firebaseSimpleLogin, $ionicSwipeCardDelegate, $timeout, foodSvc) {
+  $rootScope.scrollable = true;
   /*
    * Firebase stuff
    */
@@ -245,8 +246,9 @@ angular.module('starter.controllers', [])
   $scope.friend = Friends.get($stateParams.friendId);
 })
 
-.controller('AccountCtrl', function($scope, $firebase, $state, foodSvc) {
-
+.controller('AccountCtrl', function($rootScope, $scope, $firebase, $state, foodSvc) {
+  $rootScope.scrollable = false;
+  
   var rootRef = new Firebase('https://tinderforfood.firebaseio.com/');
   var sync = $firebase(rootRef);
   $scope.data = sync.$asObject();
