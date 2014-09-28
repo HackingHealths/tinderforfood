@@ -55,7 +55,7 @@ angular.module('starter.controllers', [])
     }
   };
 
-  
+
 
   var updateFirebase = function (resultsArray) {
     for (var i = 0; i < resultsArray.length; i ++) {
@@ -307,8 +307,8 @@ angular.module('starter.controllers', [])
     if (!results) {
       $scope.showAlert = function() {
         var alertPopup = $ionicPopup.alert({
-          title: 'Oops!',
-          template: 'You need to finish the questions !'
+          title: 'No Answers Yet!',
+          template: 'You need to finish the questions!'
         });
         alertPopup.then(function(res) {
           $state.go('tab.home');
