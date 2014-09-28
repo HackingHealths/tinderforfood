@@ -3,7 +3,7 @@
 angular.module('starter.controllers', [])
 
 .controller('HomeCtrl', function($rootScope, $scope, $state, $firebase, $firebaseSimpleLogin, $ionicSwipeCardDelegate, $timeout, foodSvc) {
-  $rootScope.scrollable = true;
+  $rootScope.scrollable = false;
   /*
    * Firebase stuff
    */
@@ -260,7 +260,8 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('ResultsCtrl', function($scope, $firebase) {
+.controller('ResultsCtrl', function($rootScope, $scope, $firebase) {
+  $rootScope.scrollable = true;
   var rootRef = new Firebase('https://tinderforfood.firebaseio.com/');
   var sync = $firebase(rootRef);
   $scope.viewReady = false;
@@ -321,7 +322,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('AccountCtrl', function($rootScope, $scope, $firebase, $state, $ionicPopup, foodSvc) {
-  $rootScope.scrollable = false;
+  $rootScope.scrollable = true;
 
   var rootRef = new Firebase('https://tinderforfood.firebaseio.com/');
   var sync = $firebase(rootRef);
