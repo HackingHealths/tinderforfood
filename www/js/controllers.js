@@ -2,7 +2,7 @@
 
 angular.module('starter.controllers', [])
 
-.controller('HomeCtrl', function($scope, $state, $firebase, $firebaseSimpleLogin, $ionicSwipeCardDelegate, $rootScope, foodSvc) {
+.controller('HomeCtrl', function($scope, $state, $firebase, $firebaseSimpleLogin, $ionicSwipeCardDelegate, $rootScope, $timeout, foodSvc) {
   /*
    * Firebase stuff
    */
@@ -15,7 +15,7 @@ angular.module('starter.controllers', [])
 
   var resultRef = ref.child('results');
 
-  
+
   var authClient = $firebaseSimpleLogin(ref);
   // log user in using the Facebook provider for Simple Login
   $scope.loginWithFacebook = function() {
@@ -51,7 +51,7 @@ angular.module('starter.controllers', [])
       direction.left++;
     }
   };
-  
+
   var updateFirebase = function (resultsArray) {
     //Code to refresh database
     // resultRef.set({
@@ -75,12 +75,12 @@ angular.module('starter.controllers', [])
         var newObj = {};
         newObj[fruit] = {};
         newObj[fruit][category] = {};
-        
+
         if (!snapshot.val()[fruit] || !snapshot.val()[fruit][category]) {
           oldCorrect = 0;
           oldWrong = 0;
           oldTotal = 0;
-        } else { 
+        } else {
           oldCorrect = snapshot.val()[fruit][category].correct || 0;
           oldWrong = snapshot.val()[fruit][category].wrong || 0;
           oldTotal = snapshot.val()[fruit][category].total;
@@ -105,11 +105,9 @@ angular.module('starter.controllers', [])
 
   $scope.answer = function(idx){
     var answer = direction.right > direction.left;
-    console.log('Question', idx, 'answer:', answer)
+    // console.log('Question', idx, 'answer:', answer)
     direction.reset();
     count++;
-
-
 
     if ( answer === $scope.cards[idx].answer ) {
       correct++;
@@ -124,31 +122,63 @@ angular.module('starter.controllers', [])
     }
     if (idx === 0) {
       // formFireBaseObj(results);
-      // console.log(results);
       // resultRef.set(results);
       updateFirebase(results);
       foodSvc.saveResult(results, function () {
         $state.go('tab.account');
       });
     }
-    console.log('SCORE', count, ':', correct, 'correct', wrong, 'wrong');
+    // console.log('SCORE', count, ':', correct, 'correct', wrong, 'wrong');
   };
 
   /*
    * Initiate cards
    */
+  var getLoadingFact = function(initial){
+    var facts = [
+      "In the U.S., the apples sold at stores can be up to a year old.",
+      "A strawberry isn't an actual berry, but a banana is.",
+      "Grapes explode when you put them in the microwave.",
+      "Apples, peaches and raspberries are all members of the rose family.",
+      "Oranges are not even in the top ten list of common foods when it comes to vitamin C levels.",
+      "The World's Most Popular Fruit is the tomato.",
+      "Coffee beans aren't beans. They are fruit pits.",
+      "Bananas are slightly radioactive.",
+      "Drinking grapefruit while taking medication can cause instant overdose and death.",
+      "Square Watermelons are grown by japanese farmers for easier stack and store.",
+      "Cucumbers are fruits.",
+      "The color Orange is named after the Orange fruit, but before that, it was called geoluread (yellow-red).",
+      "The Coco de Mer palm tree has the earth's largest fruit, weighing 42 kg (92 lb), and seeds weighing 17 kg (37 lb).",
+      "There is a tree called Fruit Salad Tree that sprouts 3 to 7 different fruits in the same tree.",
+      "Vegetables and fruits don't die the moment they are harvested.",
+      "Tomatoes have more genes than humans."
+    ];
+
+    var i = Math.floor(Math.random() * facts.length);
+
+    $timeout(getLoadingFact, 4000);
+
+    if(initial){
+      $scope.viewLoadingHeader = "Get Ready..."
+      $scope.viewLoadingFact = "We'll ask questions. Swipe left for no, swipe right for yes"
+    } else {
+      $scope.viewLoadingHeader = "Fun Fact"
+      $scope.viewLoadingFact = facts[i];
+    }
+  }
+
   var getQuestion = function(category, foodName){
     var questions = {
-      energy0: 'Do <foodname> have lots of energy?',
-      energy1: 'Do <foodname> have very less energy?',
+      energy0: 'Are <foodname> high in energy?',
+      energy1: 'Are <foodname> low in energy?',
       protein0: 'Are <foodname> high in protein?',
       protein1: 'Are <foodname> low in protein?',
       carbohydrate0: 'Are <foodname> high in carbohydrates?',
       carbohydrate1: 'Are <foodname> low in carbohydrates?',
-      fat0: 'Do <foodname> contain lots of fat?',
-      fat1: 'Do <foodname> contain very less fat?',
-      calcium0: 'Do <foodname> contain high in calcium?',
-      calcium1: 'Do <foodname> contain low in calcium?'
+      fat0: 'Are <foodname> high in fat?',
+      fat1: 'Are <foodname> low in fat?',
+      calcium0: 'Are <foodname> high in calcium?',
+      calcium1: 'Are <foodname> low in calcium?'
     };
 
     return questions[category].replace('<foodname>', foodName);
@@ -158,6 +188,18 @@ angular.module('starter.controllers', [])
     var baseImgPath = 'http://tinderforfood.s3.amazonaws.com/food_images/';
     return baseImgPath + barcode + '.jpg';
   };
+
+  var loaded = 0;
+  $scope.viewReady = false;
+  $scope.viewTitle = "Gin Hong"
+  getLoadingFact(true);
+  $scope.imageLoaded = function(){
+    loaded++;
+    if (loaded === 10){
+      $scope.viewReady = true;
+      $scope.viewTitle = "Swipe Left For No, Swipe Right For Yes";
+    }
+  }
 
   $scope.cards = [];
   var getCards = function() {
@@ -203,7 +245,7 @@ angular.module('starter.controllers', [])
   $scope.friend = Friends.get($stateParams.friendId);
 })
 
-.controller('AccountCtrl', function($scope, $firebase, foodSvc) {
+.controller('AccountCtrl', function($scope, $firebase, $state, foodSvc) {
 
   var rootRef = new Firebase('https://tinderforfood.firebaseio.com/');
   var sync = $firebase(rootRef);
@@ -214,15 +256,17 @@ angular.module('starter.controllers', [])
   var resultRef = rootRef.child('results');
 
   foodSvc.getResult(function (results) {
+    // if (!results) {
+    //   $state.go('tab.home');
+    // }
     //result of the 10 questions that user just answered
     var userResults = results;
-    console.log(userResults);
+
     resultRef.once('value', function (snapshot) {
       var otherResults = snapshot.val();
       //result of all users history
       for (var i = 0; i < userResults.length; i ++) {
         var fruit = userResults[i].foodName;
-        console.log(fruit);
         var category = userResults[i].category;
         var percentageRight = otherResults[fruit][category].correct / otherResults[fruit][category].total;
         percentageRight = Math.round(percentageRight*100)
@@ -230,7 +274,6 @@ angular.module('starter.controllers', [])
         // var result = userResults[i].result;
         // console.log(result);
         userResults[i].percentageRight = percentageRight;
-        console.log(percentageRight);
         // $scope.results[i] = {
         //   fruit: fruit,
         //   category: category,
