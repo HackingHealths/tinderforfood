@@ -191,7 +191,7 @@ angular.module('starter.controllers', [])
 
   var loaded = 0;
   $scope.viewReady = false;
-  $scope.viewTitle = "Gin Hong"
+  $scope.viewTitle = "Gin Hong 健康"
   getLoadingFact(true);
   $scope.imageLoaded = function(){
     loaded++;
