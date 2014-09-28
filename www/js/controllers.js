@@ -271,33 +271,30 @@ angular.module('starter.controllers', [])
 })
 
 .controller('ResultsCtrl', function($scope, $firebase) {
-  console.log('Controller: Results')
-
   var rootRef = new Firebase('https://tinderforfood.firebaseio.com/');
   var sync = $firebase(rootRef);
   $scope.data = sync.$asObject();
   var syncObject = sync.$asObject();
   syncObject.$bindTo($scope, 'data');
 
-  var resultRef = rootRef.child('results');
+  var resultRef = rootRef.child('history');
 
-  resultRef.once('value', function (snapshot) {
-    console.log(snapshot.val());
-    var correctPercentage = 0;
-    var getConclusion = function(){
-      if (correctPercentage > 0.5) {
-        return "Hacking Health participants know quite a bit about nutrition in fruit :)"
-      } else {
-        return "Hacking Health participants don't know much about nutrition in fruit :)"
-      }
+  var getConclusion = function(correctPercentage){
+    if (correctPercentage > 50) {
+      return "Hacking Health participants know quite a bit about nutrition in fruit :)"
+    } else {
+      return "Hacking Health participants don't know much about nutrition in fruit :)"
     }
+  }
 
+  resultRef.on('value', function (snapshot) {
+    var data = snapshot.val();
     $scope.results = {
-      sampleSize: 10,
+      sampleSize: Math.round(data.total),
       topic: "the nutrition quality in fruits",
       location: "healthcare professionals and hackers at Hacking Health",
-      correctPercentage: "",
-      conclusion: getConclusion()
+      correctPercentage: Math.round(data.correct/data.total*100),
+      conclusion: getConclusion(Math.round(data.correct/data.total*100))
     }
   });
 
