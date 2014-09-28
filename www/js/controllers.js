@@ -17,7 +17,7 @@ angular.module('starter.controllers', [])
   var resultRef = ref.child('results');
   var totalRef = ref.child('history');
 
-  // Uncomment below to refresh the database
+//  Uncomment below to refresh the database
   // resultRef.set({
   //   Apples: {
   //     Sugars: {
@@ -311,7 +311,9 @@ angular.module('starter.controllers', [])
           template: 'You need to finish the questions!'
         });
         alertPopup.then(function(res) {
-          $state.go('tab.home');
+          $state.go('tab.home', null, {
+            reload: true
+          });
         });
       };
       $scope.showAlert();
