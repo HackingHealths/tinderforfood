@@ -99,7 +99,7 @@ angular.module('starter.controllers', [])
 
   var currentQuestionIdx = 9;
   $scope.answer = function(idx){
-    console.log(idx, currentQuestionIdx);
+    // console.log(idx, currentQuestionIdx);
     if (idx > currentQuestionIdx) {
       return;
     }
@@ -251,7 +251,7 @@ angular.module('starter.controllers', [])
       }
       $scope.cards = cards;
 
-      console.log('Cards: ', $scope.cards);
+      // console.log('Cards: ', $scope.cards);
     });
   };
 
@@ -322,29 +322,31 @@ angular.module('starter.controllers', [])
     resultRef.once('value', function (snapshot) {
       var otherResults = snapshot.val();
       //result of all users history
-      for (var i = 0; i < userResults.length; i ++) {
-        var fruit = userResults[i].foodName;
-        var category = userResults[i].category;
-        var percentageRight = otherResults[fruit][category].correct / otherResults[fruit][category].total;
-        percentageRight = Math.round(percentageRight*100)
-        // console.log(category);
-        // var result = userResults[i].result;
-        // console.log(result);
-        userResults[i].percentageRight = percentageRight;
-        // $scope.results[i] = {
-        //   fruit: fruit,
-        //   category: category,
-        //   result: result
-        // }
-        if (userResults[i].result){
-          numTotalRight++;
+      if (userResults) {
+        for (var i = 0; i < userResults.length; i ++) {
+          var fruit = userResults[i].foodName;
+          var category = userResults[i].category;
+          var percentageRight = otherResults[fruit][category].correct / otherResults[fruit][category].total;
+          percentageRight = Math.round(percentageRight*100)
+          // console.log(category);
+          // var result = userResults[i].result;
+          // console.log(result);
+          userResults[i].percentageRight = percentageRight;
+          // $scope.results[i] = {
+          //   fruit: fruit,
+          //   category: category,
+          //   result: result
+          // }
+          if (userResults[i].result){
+            numTotalRight++;
+          }
         }
       }
     });
-    console.log(numTotalRight);
+    // console.log(numTotalRight);
     $scope.numTotalRight = numTotalRight;
     $scope.results = userResults;
-    console.log($scope.results);
+    // console.log($scope.results);
   });
 
   $scope.goToHome = function () {
