@@ -32,7 +32,6 @@ angular.module('starter.services', [])
   var foodNameArray = Object.keys(foodData.foods);
   var categoryArray = ['Energy', 'Protein', 'Calcium', 'Fat', 'Carbohydrate'];
 
-
   (function () {
     for (var key in foodData.foods) {
       var array = Object.keys(foodData.foods[key]);
