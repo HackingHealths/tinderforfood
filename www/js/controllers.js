@@ -265,15 +265,22 @@ angular.module('starter.controllers', [])
   var rootRef = new Firebase('https://tinderforfood.firebaseio.com/');
   var sync = $firebase(rootRef);
   $scope.viewReady = false;
+  $scope.showDetails = false;
   $scope.data = sync.$asObject();
   var syncObject = sync.$asObject();
   syncObject.$bindTo($scope, 'data');
 
+  $scope.toggleDetails = function(){
+    $scope.showDetails = !$scope.showDetails;
+  }
+
   var getConclusion = function(correctPercentage){
-    if (correctPercentage > 50) {
+    if (correctPercentage > 60) {
       return "Hacking Health participants know quite a bit about nutrition in fruit :)"
+    } else if (correctPercentage > 40){
+      return "Hacking Health participants have statistically insignificant knowledge about nutrition in fruit"
     } else {
-      return "Hacking Health participants don't know much about nutrition in fruit :)"
+      return "Hacking Health participants don't seem to know much about nutrition in fruit :)"
     }
   }
 
@@ -290,6 +297,31 @@ angular.module('starter.controllers', [])
     }
   });
 
+  rootRef.child('results').on('value', function (snapshot) {
+    var data = snapshot.val();
+
+    var getPercentage = function(obj){
+      var total = 0;
+      var correct = 0;
+      for (var i in obj){
+        total += obj[i].total;
+        correct += obj[i].correct;
+      }
+      return {
+        percentage: Math.round(correct/total*100),
+        total: total
+      };
+    }
+
+    $scope.detailArr = {};
+    for (var key in data){
+      if (key === "result") break;
+      var j = getPercentage(data[key]);
+      if (!isNaN(j.percentage)){
+        $scope.detailArr[key] = j;
+      }
+    }
+  });
 })
 
 .controller('AccountCtrl', function($rootScope, $scope, $firebase, $state, $ionicPopup, foodSvc) {
