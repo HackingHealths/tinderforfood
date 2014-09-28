@@ -152,7 +152,6 @@ angular.module('starter.controllers', [])
         $state.go('tab.account');
       });
     }
-    // console.log('SCORE', count, ':', correct, 'correct', wrong, 'wrong');
   };
 
   /*
