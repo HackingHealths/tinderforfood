@@ -3,7 +3,6 @@
 angular.module('starter.controllers', [])
 
 .controller('HomeCtrl', function($scope, $state, $firebase, $firebaseSimpleLogin, $ionicSwipeCardDelegate, $rootScope, foodSvc) {
-
   /*
    * Firebase stuff
    */
@@ -54,13 +53,22 @@ angular.module('starter.controllers', [])
   };
   
   var updateFirebase = function (resultsArray) {
+    //Code to refresh database
+    // resultRef.set({
+    //   result: {
+    //     Apples: {
+    //       Sugars: {
+    //         total: 0
+    //       }
+    //     }
+    //   }
+    // });
     // var obj = {};
     for (var i = 0; i < resultsArray.length; i ++) {
       var fruit = resultsArray[i].foodName;
       var category = resultsArray[i].category;
       var correct = resultsArray[i].result;
       resultRef.once('value', function (snapshot) {
-        console.log(snapshot);
         var oldCorrect;
         var oldWrong;
         var oldTotal;
@@ -86,8 +94,8 @@ angular.module('starter.controllers', [])
           newObj[fruit][category].wrong = oldWrong + 1;
         }
         newObj[fruit][category].total = oldTotal + 1;
-
-        resultRef.update(newObj);
+        var newRef = new Firebase('https://tinderforfood.firebaseio.com/results/' + fruit + '/' + category);
+        newRef.update(newObj[fruit][category]);
 
       }, function (errorObject) {
         console.log('The read failed: ' + errorObject.code);
@@ -176,11 +184,45 @@ angular.module('starter.controllers', [])
   $scope.friend = Friends.get($stateParams.friendId);
 })
 
-.controller('AccountCtrl', function($scope, foodSvc) {
+.controller('AccountCtrl', function($scope, $firebase, foodSvc) {
+
+  var rootRef = new Firebase('https://tinderforfood.firebaseio.com/');
+  var sync = $firebase(rootRef);
+  $scope.data = sync.$asObject();
+  var syncObject = sync.$asObject();
+  syncObject.$bindTo($scope, 'data');
+
+  var resultRef = rootRef.child('results');
+
   foodSvc.getResult(function (results) {
-    $scope.results = results;
+    //result of the 10 questions that user just answered
+    var userResults = results;
+    console.log(userResults);
+    resultRef.once('value', function (snapshot) {
+      var otherResults = snapshot.val();
+      //result of all users history
+      for (var i = 0; i < userResults.length; i ++) {
+        var fruit = userResults[i].foodName;
+        console.log(fruit);
+        var category = userResults[i].category;
+        var percentageRight = otherResults[fruit][category].correct / otherResults[fruit][category].total;
+        // console.log(category);
+        // var result = userResults[i].result;
+        // console.log(result);
+        userResults[i].percentageRight = percentageRight;
+        console.log(percentageRight);
+        // $scope.results[i] = {
+        //   fruit: fruit,
+        //   category: category,
+        //   result: result
+        // }
+      }
+    });
+    $scope.results = userResults;
     console.log($scope.results);
   });
+
+
   var i;
   var people = [];
   for (i = 1; i < 10; i++) {

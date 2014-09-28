@@ -81,10 +81,12 @@ angular.module('starter.services', [])
 
     saveResult: function (result, cb) {
       latestResult = result;
+      console.log('latest restul', latestResult);
       cb();
     },
 
     getResult: function (cb) {
+      console.log('latest restul', latestResult);
       cb(latestResult);
     }
 
