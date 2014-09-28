@@ -317,6 +317,7 @@ angular.module('starter.controllers', [])
     // }
     //result of the 10 questions that user just answered
     var userResults = results;
+    var numTotalRight = 0;
 
     resultRef.once('value', function (snapshot) {
       var otherResults = snapshot.val();
@@ -335,8 +336,13 @@ angular.module('starter.controllers', [])
         //   category: category,
         //   result: result
         // }
+        if (userResults[i].result){
+          numTotalRight++;
+        }
       }
     });
+    console.log(numTotalRight);
+    $scope.numTotalRight = numTotalRight;
     $scope.results = userResults;
     console.log($scope.results);
   });
