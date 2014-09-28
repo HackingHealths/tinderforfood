@@ -48,22 +48,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.directives',
       }
     })
 
-    .state('tab.friends', {
-      url: '/friends',
+    .state('tab.results', {
+      url: '/results',
       views: {
-        'tab-friends': {
-          templateUrl: 'templates/tab-friends.html',
-          controller: 'CardCtrl'
-        }
-      }
-    })
-
-    .state('tab.friend-detail', {
-      url: '/friend/:friendId',
-      views: {
-        'tab-friends': {
-          templateUrl: 'templates/friend-detail.html',
-          controller: 'FriendDetailCtrl'
+        'tab-results': {
+          templateUrl: 'templates/tab-results.html',
+          controller: 'ResultsCtrl'
         }
       }
     })

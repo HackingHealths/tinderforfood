@@ -261,17 +261,39 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('FriendsCtrl', function($scope, Friends) {
-  $scope.friends = Friends.all();
-})
+.controller('ResultsCtrl', function($scope, $firebase) {
+  var rootRef = new Firebase('https://tinderforfood.firebaseio.com/');
+  var sync = $firebase(rootRef);
+  $scope.data = sync.$asObject();
+  var syncObject = sync.$asObject();
+  syncObject.$bindTo($scope, 'data');
 
-.controller('FriendDetailCtrl', function($scope, $stateParams, Friends) {
-  $scope.friend = Friends.get($stateParams.friendId);
+  var resultRef = rootRef.child('history');
+
+  var getConclusion = function(correctPercentage){
+    if (correctPercentage > 50) {
+      return "Hacking Health participants know quite a bit about nutrition in fruit :)"
+    } else {
+      return "Hacking Health participants don't know much about nutrition in fruit :)"
+    }
+  }
+
+  resultRef.on('value', function (snapshot) {
+    var data = snapshot.val();
+    $scope.results = {
+      sampleSize: Math.round(data.total),
+      topic: "the nutrition quality in fruits",
+      location: "healthcare professionals and hackers at Hacking Health",
+      correctPercentage: Math.round(data.correct/data.total*100),
+      conclusion: getConclusion(Math.round(data.correct/data.total*100))
+    }
+  });
+
 })
 
 .controller('AccountCtrl', function($rootScope, $scope, $firebase, $state, $ionicPopup, foodSvc) {
   $rootScope.scrollable = false;
-  
+
   var rootRef = new Firebase('https://tinderforfood.firebaseio.com/');
   var sync = $firebase(rootRef);
   $scope.data = sync.$asObject();
@@ -295,6 +317,7 @@ angular.module('starter.controllers', [])
     }
     //result of the 10 questions that user just answered
     var userResults = results;
+    var numTotalRight = 0;
 
     resultRef.once('value', function (snapshot) {
       var otherResults = snapshot.val();
@@ -313,8 +336,13 @@ angular.module('starter.controllers', [])
         //   category: category,
         //   result: result
         // }
+        if (userResults[i].result){
+          numTotalRight++;
+        }
       }
     });
+    console.log(numTotalRight);
+    $scope.numTotalRight = numTotalRight;
     $scope.results = userResults;
     console.log($scope.results);
   });
@@ -328,7 +356,7 @@ angular.module('starter.controllers', [])
   var peopleWrong = [];
   for (i = 1; i < 10; i++) {
     var j = Math.round(Math.random()*31);
-    peopleRight.push(j.toString()); 
+    peopleRight.push(j.toString());
     var k = Math.round(Math.random()*31);
     peopleWrong.push(k.toString());
   };
