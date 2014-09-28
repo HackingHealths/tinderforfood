@@ -7815,7 +7815,7 @@ $ios-transition-box-shadow-end: -200px 0px 200px rgba(0,0,0,0.15), -5px 0px 5px 
   -webkit-transition: none !important;
   transition: none !important; }
 
-p, h1, h2, h3, h4, h5, h6 {
+*, p, h1, h2, h3, h4, h5, h6 {
   font-family: 'Lato', 'Helvetica', sans-serif;
   font-weight: 300; }
 
@@ -7848,10 +7848,10 @@ p, h1, h2, h3, h4, h5, h6 {
   background-color: white; }
 
 .question-bg-correct {
-  background-color: #BDFFEA; }
+  background-color: #01FF70; }
 
 .question-bg-wrong {
-  background-color: #FFDADA; }
+  background-color: #FF4136; }
 
 .text-center {
   text-align: center; }
@@ -7871,7 +7871,7 @@ p, h1, h2, h3, h4, h5, h6 {
   -webkit-transform: scale(1, 1);
   left: 50%;
   top: 50%;
-  margin-left: -50%;
+  margin-left: -150px;
   box-sizing: border-box;
   background-color: white;
   border-radius: 4px;

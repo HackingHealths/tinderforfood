@@ -237,7 +237,36 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('ResultsCtrl', function($scope) {
+.controller('ResultsCtrl', function($scope, $firebase) {
+  console.log('Controller: Results')
+
+  var rootRef = new Firebase('https://tinderforfood.firebaseio.com/');
+  var sync = $firebase(rootRef);
+  $scope.data = sync.$asObject();
+  var syncObject = sync.$asObject();
+  syncObject.$bindTo($scope, 'data');
+
+  var resultRef = rootRef.child('results');
+
+  resultRef.once('value', function (snapshot) {
+    console.log(snapshot.val());
+    var correctPercentage = 0;
+    var getConclusion = function(){
+      if (correctPercentage > 0.5) {
+        return "that even healthcare people don't know much about nutrition :)"
+      } else {
+        return "that even healthcare people don't know much about nutrition :)"
+      }
+    }
+
+    $scope.results = {
+      sampleSize: 10,
+      topic: "the nutrition quality in fruits",
+      location: "healthcare professionals and hackers at Hacking Health",
+      correctPercentage: "",
+      conclusion: "that even healthcare people don't know much about nutrition :)"
+    }
+  });
 
 })
 
