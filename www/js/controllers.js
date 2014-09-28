@@ -153,7 +153,7 @@ angular.module('starter.controllers', [])
 
     if (idx === 0) {
 
-    
+
       // formFireBaseObj(results);
       // resultRef.set(results);
       updateFirebase(results);
@@ -286,9 +286,9 @@ angular.module('starter.controllers', [])
     var correctPercentage = 0;
     var getConclusion = function(){
       if (correctPercentage > 0.5) {
-        return "that even healthcare people don't know much about nutrition :)"
+        return "Hacking Health participants know quite a bit about nutrition in fruit :)"
       } else {
-        return "that even healthcare people don't know much about nutrition :)"
+        return "Hacking Health participants don't know much about nutrition in fruit :)"
       }
     }
 
@@ -297,7 +297,7 @@ angular.module('starter.controllers', [])
       topic: "the nutrition quality in fruits",
       location: "healthcare professionals and hackers at Hacking Health",
       correctPercentage: "",
-      conclusion: "that even healthcare people don't know much about nutrition :)"
+      conclusion: getConclusion()
     }
   });
 
@@ -305,7 +305,7 @@ angular.module('starter.controllers', [])
 
 .controller('AccountCtrl', function($rootScope, $scope, $firebase, $state, foodSvc) {
   $rootScope.scrollable = false;
-  
+
   var rootRef = new Firebase('https://tinderforfood.firebaseio.com/');
   var sync = $firebase(rootRef);
   $scope.data = sync.$asObject();
@@ -350,7 +350,7 @@ angular.module('starter.controllers', [])
   var peopleWrong = [];
   for (i = 1; i < 10; i++) {
     var j = Math.round(Math.random()*31);
-    peopleRight.push(j.toString()); 
+    peopleRight.push(j.toString());
     var k = Math.round(Math.random()*31);
     peopleWrong.push(k.toString());
   };

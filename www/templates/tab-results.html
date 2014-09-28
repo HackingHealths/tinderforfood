@@ -1,10 +1,28 @@
 <ion-view title="What We've Learnt">
   <ion-content class="padding">
-    <h3>In Summary</h3>
-    <p>After polling {{ results.sampleSize }} {{ results.location }} about {{ results.topic }}, we discovered that {{ results.correctPercentage }}% of answers posed were answered correctly.</p>
-    <p>This tells us {{ results.conclusion }}</p>
-    <h3>Who We Are</h3>
-    <p>Gin Hong is an app for healthcare professionals to educate patients, raise awareness and collect data that could drive health education and policy.</p>
-    <p>This example is related to fruit and general health awareness, but could be used as an educational and data analytics tool for a myriad of health related issues such as smoking, fitness, cancer etc.</p>
+    <div class="card">
+      <div class="item item-text-wrap">
+        <p><span class="stat">{{ results.sampleSize }}</span> {{ results.location }} polled about {{ results.topic }}</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="item item-text-wrap">
+        <p><span class="stat">{{ results.correctPercentage }}%</span> of answers were correct</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="item item-text-wrap">
+        <p>Conclusion: {{ results.conclusion }}</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="item item-divider">
+        Who We Are
+      </div>
+      <div class="item item-text-wrap">
+        <p>Gin Hong is an app for healthcare professionals to educate patients, raise awareness and collect data that could drive health education and policy.</p>
+        <p>This example is related to fruit and general health awareness, but could be used as an educational and data analytics tool for a myriad of health related issues such as smoking, fitness, cancer etc.</p>
+      </div>
+    </div>
   </ion-content>
 </ion-view>
