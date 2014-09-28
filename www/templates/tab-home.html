@@ -1,8 +1,8 @@
-<ion-view title="Gin Hong">
+<ion-view title="{{ viewTitle }}">
   <ion-content class="padding">
     <div ng-hide="viewReady" class="spinner">
       <i class="fa fa-circle-o-notch fa-spin"></i>
-      <h3>Did You Know</h3>
+      <h3>{{ viewLoadingHeader }}</h3>
       <p>{{ viewLoadingFact }}</p>
     </div>
     <swipe-cards ng-show="viewReady">
@@ -10,6 +10,8 @@
         <h3 class="text-center title">{{ card.name }}</h3>
         <div>
           <img class="question-image" ng-src="{{card.image}}" imageonload="imageLoaded()"></img>
+        </div>
+        <div>
         </div>
       </swipe-card>
     </swipe-cards>

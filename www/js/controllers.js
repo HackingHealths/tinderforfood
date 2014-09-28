@@ -135,7 +135,7 @@ angular.module('starter.controllers', [])
   /*
    * Initiate cards
    */
-  var getLoadingFact = function(){
+  var getLoadingFact = function(initial){
     var facts = [
       "In the U.S., the apples sold at stores can be up to a year old.",
       "A strawberry isn't an actual berry, but a banana is.",
@@ -157,9 +157,15 @@ angular.module('starter.controllers', [])
 
     var i = Math.floor(Math.random() * facts.length);
 
-    $timeout(getLoadingFact, 3000);
+    $timeout(getLoadingFact, 4000);
 
-    $scope.viewLoadingFact = facts[i];
+    if(initial){
+      $scope.viewLoadingHeader = "Get Ready..."
+      $scope.viewLoadingFact = "We'll ask questions. Swipe left for no, swipe right for yes"
+    } else {
+      $scope.viewLoadingHeader = "Fun Fact"
+      $scope.viewLoadingFact = facts[i];
+    }
   }
 
   var getQuestion = function(category, foodName){
@@ -170,8 +176,8 @@ angular.module('starter.controllers', [])
       protein1: 'Are <foodname> low in protein?',
       carbohydrate0: 'Are <foodname> high in carbohydrates?',
       carbohydrate1: 'Are <foodname> low in carbohydrates?',
-      fat0: 'Are <foodname> high of fat?',
-      fat1: 'Are <foodname> low less fat?',
+      fat0: 'Are <foodname> high in fat?',
+      fat1: 'Are <foodname> low in fat?',
       calcium0: 'Are <foodname> high in calcium?',
       calcium1: 'Are <foodname> low in calcium?'
     };
@@ -186,11 +192,13 @@ angular.module('starter.controllers', [])
 
   var loaded = 0;
   $scope.viewReady = false;
-  getLoadingFact();
+  $scope.viewTitle = "Gin Hong"
+  getLoadingFact(true);
   $scope.imageLoaded = function(){
     loaded++;
     if (loaded === 10){
       $scope.viewReady = true;
+      $scope.viewTitle = "Swipe Left For No, Swipe Right For Yes";
     }
   }
 
