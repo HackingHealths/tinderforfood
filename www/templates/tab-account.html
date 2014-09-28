@@ -8,7 +8,7 @@
 			  <h1>{{ result.answer ? "Yes" : "No" }}</h1>
 			</div>
 			<div class="item item-body">
-			  <span style="display:inline-block; width:49%; vertical-align:top;" ng-class="{ 'highlight-answer-right': result.result }">
+			  <span style="display:inline-block; width:49%; vertical-align:top;" ng-class="{ 'question-bg-correct': result.result }">
 			  	<div style="color:green; font-size:35px; padding:10px;">{{ result.percentageRight }}%</div>
 			  	<div style="color:green;">Right</div>
 				  <div style="padding:15px;">
@@ -18,7 +18,7 @@
 					</div>
 					<div>{{ result.result ? "You" : "" }}</div>
 			  </span>
-			  <span style="display:inline-block; width:49%; vertical-align:top;" ng-class="{ 'highlight-answer-wrong': !result.result }">
+			  <span style="display:inline-block; width:49%; vertical-align:top;" ng-class="{ 'question-bg-wrong': !result.result }">
 			  	<div style="color:red; font-size:35px; padding:10px;">{{ 100 - result.percentageRight }}%</div>
 			  	<div style="color:red;">Wrong</div>
 			  	<div style="padding:15px;">
