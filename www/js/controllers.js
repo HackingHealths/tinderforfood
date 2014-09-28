@@ -321,9 +321,14 @@ angular.module('starter.controllers', [])
 
 
   var i;
-  var people = [];
+  var peopleRight = [];
+  var peopleWrong = [];
   for (i = 1; i < 10; i++) {
-    people.push(i.toString())
+    var j = Math.round(Math.random()*31);
+    peopleRight.push(j.toString()); 
+    var k = Math.round(Math.random()*31);
+    peopleWrong.push(k.toString());
   };
-  $scope.array = people
+  $scope.peopleRight = peopleRight;
+  $scope.peopleWrong = peopleWrong;
 });
