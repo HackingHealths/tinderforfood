@@ -203,7 +203,7 @@ angular.module('starter.controllers', [])
   $scope.friend = Friends.get($stateParams.friendId);
 })
 
-.controller('AccountCtrl', function($scope, $firebase, foodSvc) {
+.controller('AccountCtrl', function($scope, $firebase, $state, foodSvc) {
 
   var rootRef = new Firebase('https://tinderforfood.firebaseio.com/');
   var sync = $firebase(rootRef);
@@ -214,8 +214,12 @@ angular.module('starter.controllers', [])
   var resultRef = rootRef.child('results');
 
   foodSvc.getResult(function (results) {
+    // if (!results) {
+    //   $state.go('tab.home');
+    // }
     //result of the 10 questions that user just answered
     var userResults = results;
+
     console.log(userResults);
     resultRef.once('value', function (snapshot) {
       var otherResults = snapshot.val();
