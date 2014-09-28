@@ -13,8 +13,21 @@
       <div class="card">
         <div class="item item-text-wrap balanced balanced-border">
           <p><span class="stat">{{ results.correctPercentage }}%</span> of answers were correct</p>
+          <button ng-click="toggleDetails()" class="button button-balanced">
+            See Details
+          </button>
+          <!-- Start Details -->
+          <div ng-show="showDetails">
+            <div class="card" ng-repeat="(topic, result) in detailArr">
+              <div class="item item-text-wrap">
+                <p><span class="stat-small">{{ result.percentage }}%</span> of {{ result.total }} questions on {{ topic.toLowerCase() }} were correct</p>
+              </div>
+            </div>
+          </div>
+          <!-- End Details -->
         </div>
       </div>
+
       <div class="card">
         <div class="item item-text-wrap assertive assertive-border">
           <p>Conclusion: {{ results.conclusion }}</p>

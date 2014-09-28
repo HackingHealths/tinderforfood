@@ -7850,6 +7850,10 @@ ion-nav-view {
   line-height: 45px;
   font-size: 50px; }
 
+.stat-small {
+  line-height: 24px;
+  font-size: 30px; }
+
 .question-image {
   margin-bottom: 20px;
   background-size: 100%;
