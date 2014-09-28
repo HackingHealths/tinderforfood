@@ -15,7 +15,7 @@ angular.module('starter.controllers', [])
   syncObject.$bindTo($scope, 'data');
 
   var resultRef = ref.child('results');
-
+  var totalRef = ref.child('history');
 
   var authClient = $firebaseSimpleLogin(ref);
   // log user in using the Facebook provider for Simple Login
@@ -103,6 +103,7 @@ angular.module('starter.controllers', [])
       });
     }
   };
+
   var currentQuestionIdx = 9;
   $scope.answer = function(idx){
     console.log(idx, currentQuestionIdx);
@@ -119,15 +120,40 @@ angular.module('starter.controllers', [])
       var correctAnswer = $scope.cards[idx];
       correctAnswer.result = true;
       results.push(correctAnswer);
+
+      totalRef.once('value', function (snapshot) {
+        var current = snapshot.val();
+        current.total = current.total || 0;
+        current.correct = current.correct || 0;
+        current.wrong = current.wrong || 0;
+
+        current.total ++;
+        current.correct ++;
+        totalRef.update(current);
+      });
+
     } else {
       wrong++;
       var wrongAnswer = $scope.cards[idx];
       wrongAnswer.result = false;
       results.push(wrongAnswer);
+
+      totalRef.once('value', function (snapshot) {
+        var current = snapshot.val() || {};
+        current.total = current.total || 0;
+        current.correct = current.correct || 0;
+        current.wrong = current.wrong || 0;
+
+        current.total ++;
+        current.wrong ++;
+        totalRef.update(current);
+      });
     }
     currentQuestionIdx --;
 
     if (idx === 0) {
+
+    
       // formFireBaseObj(results);
       // resultRef.set(results);
       updateFirebase(results);
