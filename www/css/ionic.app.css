@@ -7819,6 +7819,11 @@ $ios-transition-box-shadow-end: -200px 0px 200px rgba(0,0,0,0.15), -5px 0px 5px 
   font-family: 'Lato', 'Helvetica', sans-serif;
   font-weight: 300; }
 
+p, .item p, .p {
+  font-size: 16px;
+  line-height: 24px;
+  color: inherit; }
+
 .box {
   height: 450px;
   overflow: none;

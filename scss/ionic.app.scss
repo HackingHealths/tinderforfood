@@ -29,6 +29,12 @@ $red: #FF4136;
   font-weight: 300;
 }
 
+p, .item p, .p {
+  font-size: 16px;
+  line-height: 24px;
+  color: inherit;
+}
+
 // App CSS
 .box {
   height: 450px;

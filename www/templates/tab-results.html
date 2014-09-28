@@ -1,27 +1,33 @@
 <ion-view title="What We've Learnt">
   <ion-content class="padding">
-    <div class="card">
-      <div class="item item-text-wrap">
-        <p><span class="stat">{{ results.sampleSize }}</span> questions were posed to {{ results.location }} about {{ results.topic }}</p>
-      </div>
+    <div ng-hide="viewReady" class="spinner">
+      <i class="fa fa-circle-o-notch fa-spin"></i>
+      <span class="p">Loading</span>
     </div>
-    <div class="card">
-      <div class="item item-text-wrap">
-        <p><span class="stat">{{ results.correctPercentage }}%</span> of answers were correct</p>
+    <div ng-show="viewReady">
+      <div class="card">
+        <div class="item item-text-wrap positive positive-border">
+          <p><span class="stat">{{ results.sampleSize }}</span> questions were posed to {{ results.location }} about {{ results.topic }}</p>
+        </div>
       </div>
-    </div>
-    <div class="card">
-      <div class="item item-text-wrap">
-        <p>Conclusion: {{ results.conclusion }}</p>
+      <div class="card">
+        <div class="item item-text-wrap balanced balanced-border">
+          <p><span class="stat">{{ results.correctPercentage }}%</span> of answers were correct</p>
+        </div>
       </div>
-    </div>
-    <div class="card">
-      <div class="item item-divider">
-        Who We Are
+      <div class="card">
+        <div class="item item-text-wrap assertive assertive-border">
+          <p>Conclusion: {{ results.conclusion }}</p>
+        </div>
       </div>
-      <div class="item item-text-wrap">
-        <p>Gin Hong is an app for healthcare professionals to educate patients, raise awareness and collect data that could drive health education and policy.</p>
-        <p>This example is related to fruit and general health awareness, but could be used as an educational and data analytics tool for a myriad of health related issues such as smoking, fitness, cancer etc.</p>
+      <div class="card">
+        <div class="item item-divider">
+          Who We Are
+        </div>
+        <div class="item item-text-wrap">
+          <p>Gin Hong is an app for healthcare professionals to educate patients, raise awareness and collect data that could drive health education and policy.</p>
+          <p>This example is related to fruit and general health awareness, but could be used as an educational and data analytics tool for a myriad of health related issues such as smoking, fitness, cancer etc.</p>
+        </div>
       </div>
     </div>
   </ion-content>

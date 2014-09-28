@@ -273,11 +273,10 @@ angular.module('starter.controllers', [])
 .controller('ResultsCtrl', function($scope, $firebase) {
   var rootRef = new Firebase('https://tinderforfood.firebaseio.com/');
   var sync = $firebase(rootRef);
+  $scope.viewReady = false;
   $scope.data = sync.$asObject();
   var syncObject = sync.$asObject();
   syncObject.$bindTo($scope, 'data');
-
-  var resultRef = rootRef.child('history');
 
   var getConclusion = function(correctPercentage){
     if (correctPercentage > 50) {
@@ -287,7 +286,9 @@ angular.module('starter.controllers', [])
     }
   }
 
-  resultRef.on('value', function (snapshot) {
+  rootRef.child('history').on('value', function (snapshot) {
+    if (!$scope.viewReady) $scope.viewReady = true;
+
     var data = snapshot.val();
     $scope.results = {
       sampleSize: Math.round(data.total),
