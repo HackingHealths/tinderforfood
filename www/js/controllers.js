@@ -316,7 +316,10 @@ angular.module('starter.controllers', [])
     $scope.detailArr = {};
     for (var key in data){
       if (key === "result") break;
-      $scope.detailArr[key] = getPercentage(data[key]);
+      var j = getPercentage(data[key]);
+      if (!isNaN(j.percentage)){
+        $scope.detailArr[key] = j;
+      }
     }
   });
 })
