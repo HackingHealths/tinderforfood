@@ -7894,6 +7894,7 @@ ion-nav-view {
   -webkit-transform: scale(1, 1);
   left: 50%;
   top: 50%;
+  width: 100%;
   margin-left: -50%;
   box-sizing: border-box;
   background-color: white;
