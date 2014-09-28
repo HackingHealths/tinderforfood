@@ -1,17 +1,17 @@
 <ion-view title="Gin Hong">
   <ion-content class="padding">
-    <swipe-cards>
+    <div ng-hide="viewReady" class="spinner">
+      <i class="fa fa-circle-o-notch fa-spin"></i>
+      <h3>Did You Know</h3>
+      <p>{{ viewLoadingFact }}</p>
+    </div>
+    <swipe-cards ng-show="viewReady">
       <swipe-card on-destroy="answer($index)" on-drag="dragged($event)" ng-repeat="card in cards" class="box question" style="border: 1px solid #bfbfbb; padding:10px;">
         <h3 class="text-center title">{{ card.name }}</h3>
         <div>
-          <img class="question-image" src="{{card.image}}"></img>
+          <img class="question-image" ng-src="{{card.image}}" imageonload="imageLoaded()"></img>
         </div>
       </swipe-card>
     </swipe-cards>
-
-<!--     <div class="row">
-      <div class="question-no col col-33"><i class="fa fa-lg fa-close"></i></div>
-      <div class="question-yes col col-33 col-offset-33"><i class="fa fa-lg fa-check"></i></div>
-    </div> -->
   </ion-content>
 </ion-view>

@@ -2,7 +2,7 @@
 
 angular.module('starter.controllers', [])
 
-.controller('HomeCtrl', function($scope, $state, $firebase, $firebaseSimpleLogin, $ionicSwipeCardDelegate, $rootScope, foodSvc) {
+.controller('HomeCtrl', function($scope, $state, $firebase, $firebaseSimpleLogin, $ionicSwipeCardDelegate, $rootScope, $timeout, foodSvc) {
   /*
    * Firebase stuff
    */
@@ -15,7 +15,7 @@ angular.module('starter.controllers', [])
 
   var resultRef = ref.child('results');
 
-  
+
   var authClient = $firebaseSimpleLogin(ref);
   // log user in using the Facebook provider for Simple Login
   $scope.loginWithFacebook = function() {
@@ -51,7 +51,7 @@ angular.module('starter.controllers', [])
       direction.left++;
     }
   };
-  
+
   var updateFirebase = function (resultsArray) {
     //Code to refresh database
     // resultRef.set({
@@ -75,12 +75,12 @@ angular.module('starter.controllers', [])
         var newObj = {};
         newObj[fruit] = {};
         newObj[fruit][category] = {};
-        
+
         if (!snapshot.val()[fruit] || !snapshot.val()[fruit][category]) {
           oldCorrect = 0;
           oldWrong = 0;
           oldTotal = 0;
-        } else { 
+        } else {
           oldCorrect = snapshot.val()[fruit][category].correct || 0;
           oldWrong = snapshot.val()[fruit][category].wrong || 0;
           oldTotal = snapshot.val()[fruit][category].total;
@@ -109,8 +109,6 @@ angular.module('starter.controllers', [])
     direction.reset();
     count++;
 
-
-
     if ( answer === $scope.cards[idx].answer ) {
       correct++;
       var correctAnswer = $scope.cards[idx];
@@ -137,18 +135,45 @@ angular.module('starter.controllers', [])
   /*
    * Initiate cards
    */
+  var getLoadingFact = function(){
+    var facts = [
+      "In the U.S., the apples sold at stores can be up to a year old.",
+      "A strawberry isn't an actual berry, but a banana is.",
+      "Grapes explode when you put them in the microwave.",
+      "Apples, peaches and raspberries are all members of the rose family.",
+      "Oranges are not even in the top ten list of common foods when it comes to vitamin C levels.",
+      "The World's Most Popular Fruit is the tomato.",
+      "Coffee beans aren't beans. They are fruit pits.",
+      "Bananas are slightly radioactive.",
+      "Drinking grapefruit while taking medication can cause instant overdose and death.",
+      "Square Watermelons are grown by japanese farmers for easier stack and store.",
+      "Cucumbers are fruits.",
+      "The color Orange is named after the Orange fruit, but before that, it was called geoluread (yellow-red).",
+      "The Coco de Mer palm tree has the earth's largest fruit, weighing 42 kg (92 lb), and seeds weighing 17 kg (37 lb).",
+      "There is a tree called Fruit Salad Tree that sprouts 3 to 7 different fruits in the same tree.",
+      "Vegetables and fruits don't die the moment they are harvested.",
+      "Tomatoes have more genes than humans."
+    ];
+
+    var i = Math.floor(Math.random() * facts.length);
+
+    $timeout(getLoadingFact, 3000);
+
+    $scope.viewLoadingFact = facts[i];
+  }
+
   var getQuestion = function(category, foodName){
     var questions = {
-      energy0: 'Do <foodname> have lots of energy?',
-      energy1: 'Do <foodname> have very less energy?',
+      energy0: 'Are <foodname> high in energy?',
+      energy1: 'Are <foodname> low in energy?',
       protein0: 'Are <foodname> high in protein?',
       protein1: 'Are <foodname> low in protein?',
       carbohydrate0: 'Are <foodname> high in carbohydrates?',
       carbohydrate1: 'Are <foodname> low in carbohydrates?',
-      fat0: 'Do <foodname> contain lots of fat?',
-      fat1: 'Do <foodname> contain very less fat?',
-      calcium0: 'Do <foodname> contain high in calcium?',
-      calcium1: 'Do <foodname> contain low in calcium?'
+      fat0: 'Are <foodname> high of fat?',
+      fat1: 'Are <foodname> low less fat?',
+      calcium0: 'Are <foodname> high in calcium?',
+      calcium1: 'Are <foodname> low in calcium?'
     };
 
     return questions[category].replace('<foodname>', foodName);
@@ -158,6 +183,16 @@ angular.module('starter.controllers', [])
     var baseImgPath = 'http://tinderforfood.s3.amazonaws.com/food_images/';
     return baseImgPath + barcode + '.jpg';
   };
+
+  var loaded = 0;
+  $scope.viewReady = false;
+  getLoadingFact();
+  $scope.imageLoaded = function(){
+    loaded++;
+    if (loaded === 10){
+      $scope.viewReady = true;
+    }
+  }
 
   $scope.cards = [];
   var getCards = function() {
